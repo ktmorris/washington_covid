@@ -1,0 +1,253 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  12pt,
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={COVID, Death, and Mobilization},
+  pdfauthor={Kevin Morris},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage{rotating}
+\usepackage{setspace}
+\usepackage{lineno}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newenvironment{cslreferences}%
+  {\setlength{\parindent}{0pt}%
+  \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces}%
+  {\par}
+
+\title{COVID, Death, and Mobilization\thanks{Thanks.}}
+\author{Kevin Morris\footnote{Researcher, Brennan Center for Justice at NYU School of Law, 120 Broadway Ste 1750, New York, NY 10271 (\href{mailto:kevin.morris@nyu.edu}{\nolinkurl{kevin.morris@nyu.edu}})}}
+\date{August 13, 2020}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+The novel coronavirus SARS-CoV-2 (COVID-19) has upended normal routines across the United States. More than 150 thousand Americans have died of COVID-19, and more than 5 million have tested positive for the illness. At the same time, there is widespread perception that the government's response to the pandemic has been lackluster. This manuscript tests whether the coronavirus has been mobilizing for voters most directly impacted by pandemic. By leveraging individual-level death records from Washington State, I identify registered voters who lived with individuals who died from COVID-19, measuring their 2020 turnout against voters who lived with individuals who died from other causes, and voters who did not live with anyone who died. These analyses are supplemented with survey data exploring whether COVID-19 was differently mobilizing for voters who believed the government mishandled the public response.
+\end{abstract}
+
+\pagenumbering{gobble}
+\pagebreak
+
+\pagenumbering{arabic}
+\doublespacing
+
+\hypertarget{introduction}{%
+\subsection*{Introduction}\label{introduction}}
+\addcontentsline{toc}{subsection}{Introduction}
+
+On January 21, 2020, the first case of SARS-CoV-2 (or ``COVID-19'') was confirmed in the state of Washington (McNerthney \protect\hyperlink{ref-McNerthney2020}{2020}). President Donald Trump made his first public comments on the new virus the next day from Davos, telling CNBC ``we have it totally under control. It's one person coming in from China, and we have it under control'' (Calia \protect\hyperlink{ref-Calia2020}{2020}). A few days later, on January 30, he said at a manufacturing plant in Michigan that ``we think we have it very well under control,'' assuring listeners that ``it's going to have a very good ending for it'' (``Remarks by President Trump at a USMCA Celebration with American Workers \textbar{} Warren, MI'' \protect\hyperlink{ref-whitehouse2020}{2020}). Meanwhile, cases were identified in states across the country. The first confirmed death attributed to COVID-19 occurred in Northern California on February 4th (Moon \protect\hyperlink{ref-Moon2020}{2020}). By early March, Washington State was being called the center of the outbreak in the United States (Golden \protect\hyperlink{ref-Golden2020}{2020}), although New York City would soon claim that dubious honor. By the time of the 2020 presidential election, more than XX Americans had tested positive for the novel coronavirus, with more than XX dead. Reporting from a few months earlier, however, indicates that the official reports may be undercounts (Lu \protect\hyperlink{ref-Lu2020}{2020}).
+
+Although the World Health Organization declared COVID-19 a pandemic on March 11 (Wan \protect\hyperlink{ref-Wan2020}{2020}), the response from the United State's federal government was slow. In the months to come, the Trump Administration would push responsibility to states and local governments, downplay the severity of the pandemic, and argue against the widespread stay-at-home orders promoted by public health experts (Shear et al. \protect\hyperlink{ref-Shear2020}{2020}). Much of the United States remained at home throughout the summer even as peer nations were able to return to more normal daily life (Douglas \protect\hyperlink{ref-Douglas2020}{2020}). The Trump Administration's response to the pandemic has consistently been criticized in the press, with Time Magazine reporting that a "complete catalog of Trump's failures to adequately address the pandemic is the stuff of books, not single articles' (Fitzpatrick \protect\hyperlink{ref-Fitzpatrick2020}{2020}).
+
+These extraordinary upheavals to everyday life occurred against an impending presidential election in the United States. On November 3, 2020, Americans cast ballots deciding whether to re-elect president Trump or rather election Joseph Biden. Understanding how the pandemic shaped voters' behavior and preferences is of key importance in the aftermath of such a historic contest, and this manuscript sheds light on how personal contact with the novel coronavirus impacted voters. Using individual-level death records from the state of Washington, I identify voters who lived with individuals who perished from COVID-19. I compare their turnout to the turnout of voters who lived with individuals who died from other causes, as well as voters who did not live with anyone who died. I then look to national survey data to understand if the salience of the pandemic and respondents' beliefs about the federal government's response was associated with voter turnout.
+
+\hypertarget{literature-and-theory}{%
+\subsection*{Literature and Theory}\label{literature-and-theory}}
+\addcontentsline{toc}{subsection}{Literature and Theory}
+
+I begin by considering the expected effect of the death of a household member in the context of the opportunity cost literature. Although there is little existing literature relating the exogenous shock of the death of a loved one to political participation (but see Hobbs, Christakis, and Fowler \protect\hyperlink{ref-Hobbs2014}{2014}), political scientists have long noted that voters vote at lower rates when faced with competing demands on their time. After exploring the impact of economic adversity on turnout, Rosenstone (\protect\hyperlink{ref-Rosenstone1982}{1982}, 42, emphasis added) argues that ``theories of political participation must take into account not only the costs associated specifically with the act of participation but other life circumstances that also place demands on the citizen\ldots{} {[}conditions{]} such as marital problems, \emph{family illness, death of a close friend or relative}, problems at work, or a change of residences also surely increase the opportunity costs of political participation.'' Caring for a sick loved one, as well as funereal costs, impose large financial burdens on households (e.g.~Fan and Zick \protect\hyperlink{ref-Fan2004}{2004}). Wyatt et al. (\protect\hyperlink{ref-Wyatt1999}{1999}) studied caregivers after the person for whom they were caring died, finding that these caregivers spent an average of 10.8 hours per day on direct care.
+
+Hobbs, Christakis, and Fowler (\protect\hyperlink{ref-Hobbs2014}{2014}) is unique in its investigation of the direct, short-term effects of the death of a spouse on voter turnout. They link records from the Social Security Master Death File to the California registered voter file to identify voters whose spouses had died in the months before and after the California Special Statewide 2009, Gubernatorial Primary 2010, and Gubernatorial General 2010 elections. Unsurprisingly, they find that voters whose spouses die immediately before or after an election are substantially less likely to vote than their matches controls, whose spouses did not die.
+
+Although little research has taken up Rosenstone (\protect\hyperlink{ref-Rosenstone1982}{1982})'s charge to explore the effects of family illness or death on voter turnout, the research on other types of household shocks is perhaps illustrative. There is a large body of literature indicating that economic shocks, such as the loss of a job, cause lower turnout, especially when these shocks are not linked to wider social circumstances (Emmenegger, Marx, and Schraff \protect\hyperlink{ref-Emmenegger2015}{2015}; Marx and Nguyen \protect\hyperlink{ref-Marx2016}{2016}; Margalit \protect\hyperlink{ref-Margalit2019}{2019}). Hassell and Settle (\protect\hyperlink{ref-Hassell2017}{2017}) argues that voters without a strong history of participation disengage from political life when faced with stressful situations, though individuals with a robust history of engagement are unaffected. Negative health events are also linked with lower turnout (Pacheco and Fletcher \protect\hyperlink{ref-Pacheco2015}{2015}); so too is divorce (Sandell and Plutzer \protect\hyperlink{ref-Sandell2005}{2005}). Each of these stressful life events demand a great deal of time, financial resources, and energy --- resources that cannot then be used to register to vote, to learn about candidates, or to locate one's polling place.
+
+POLITICAL THREAT
+
+The expected effect, therefore, of living with someone who died from the coronavirus is unclear. On the one hand, voters whose loved ones died went through a profound life change. On the other hand, the rhetoric widely used in the press was that the damage inflicted by COVID-19 was thanks largely to political failures. ``The Deaths of 150,000 Americans Are on Trump's Hands,'' read a headline in The Nation (Mystal \protect\hyperlink{ref-Mystal2020}{2020}). David Frum at the Atlantic called the pandemic ``Trump's Plague'' (Frum \protect\hyperlink{ref-Frum2020}{2020}) and Slate ran an article titled ``How Trump Killed Tens of Thousands of Americans'' (Saletan \protect\hyperlink{ref-Saletan2020}{n.d.}). ``Can We Call Trump a Killer?'' asked Blow (\protect\hyperlink{ref-Blow2020}{2020}) in the headline of a column at the New York Times. It would seem that, if a voter answered that question in the affirmative after losing a loved one to the pandemic, she might be mobilized to vote against the incumbent.
+
+\hypertarget{research-design-and-data}{%
+\subsection*{Research Design and Data}\label{research-design-and-data}}
+\addcontentsline{toc}{subsection}{Research Design and Data}
+
+Registered voters who lived with household members who died from COVID-19 received, in effect, two treatments. On the one hand, they faced an extreme upheaval in the death of a household member. As discussed above, there is evidence suggesting that such household-level shocks can reduce turnout. At the same time, however, these individuals were also deeply exposed to what many consider a massive policy failure --- the government's response to the pandemic. The political threat literature indicates that such exposure could be mobilizing.
+
+\hypertarget{double-matched-triple-differences}{%
+\subsubsection*{Double-Matched Triple-Differences}\label{double-matched-triple-differences}}
+\addcontentsline{toc}{subsubsection}{Double-Matched Triple-Differences}
+
+The primary data used for the initial section of this manuscript are administrative records from the State of Washington. We begin by identifying all individuals who died between January 1 and November 3, 2020.\footnote{See \url{https://www.doh.wa.gov/DataandStatisticalReports/HealthStatistics/Death}} These records include a variety of data about the deceased individual, including residential latitude and longitude and cause of death.
+
+I then find all registered voters who lived with someone who died during this period.\footnote{See \url{https://www.sos.wa.gov/elections/vrdb/extract-requests.aspx}.} We geocode the registered voter file and identify all voters who lived within 5 meters of one of the individuals who died. Following White (\protect\hyperlink{ref-White2019a}{2019}), which similarly matched administrative records to the registered voter file, we exclude addresses at which more than 10 voters are registered. This avoids labeling all voters of apartment buildings as treated.
+
+To disentangle these effects, we use a difference-in-differences-in-differences, or triple-differences, approach. We compare the turnout of individuals whose housemates had died from COVID-19 to housemates of voters who died for other reasons, \emph{and} to the turnout of individuals who did not live with someone who had died. Of course, there are real reasons to suspect that these three groups varied in important ways. One way to control for group-level differences is to use a variety of covariates in a traditional difference-in-differences framework, though that runs the risk of violating the parallel trends assumption. Here, we adopt a difference approach: we match treated voters to untreated voters using a genetic matching algorithm, thereby ensuring that our treatment and control groups are substantially similar prior to the testing for treatment effects.
+
+In the case of the study at hand, we specifically use what we call a double-matched triple-differences framework. We begin by matching (Sekhon \protect\hyperlink{ref-Sekhon2011}{2011}) each treated voter (a registered voter who lived with someone who died from COVID-19) to a primary control voter: a registered voter who lived with someone who died but did not die from COVID-19. We expect that turnout will be higher for treated individuals because of the politicized nature of COVID-19.
+
+This simple setup, however, does not allow us to test the net effect of the two treatments, however. While we expect that exposure to the death of a housemate reduces turnout, we must include the turnout of completely untreated voters as well --- registered voters who lived with no one who died. Treated voters and primary control voters are each matched to secondary control voters using the same characteristics as the initial match. By comparing the relative turnout of each group of voters allows us to understand the net effect of living with someone who died from COVID-19. We expect that the turnout of treated voters will be higher than that of primary control voters, but below that of secondary control voters. In other words, we expect the mobilizing ``political threat'' treatment of COVID-19 to fail to overcome the demobilizing effect of the death of a housemate.
+
+\hypertarget{perception-and-mobilization}{%
+\subsubsection*{Perception and Mobilization}\label{perception-and-mobilization}}
+\addcontentsline{toc}{subsubsection}{Perception and Mobilization}
+
+Of course, using administrative records does not allow us to directly test what we theorize to be the causal mechanism at work: namely, that voters are mobilized when they think the government failed to adequately respond to the pandemic. To test this relationship, we leverage survey data from the American National Election Studies (ANES). The ANES is administered surveyed after each federal election (with a pre-election wave in presidential election years) and asks individuals around the country a host of questions about their political beliefs.
+
+In 2020, the ANES asked individuals about their beliefs about the novel coronavirus. Specifically, the survey asks ``Do you approve, disapprove, or neither approve nor disapprove of the way Donald Trump is handling the coronavirus (COVID-19) outbreak?'' Respondents use a 7-point scale, ranging from 1 (``Approve extremely strongly'') to 7 (``Disapprove extremely strongly''). Unfortunately, the survey does not ask whether respondents lived with someone who had died from the disease, so we cannot directly test the relationship explored in the first analysis. The survey does, however, ask respondents ``How worried are you personally about getting the coronavirus (COVID-19)?'' Responses vary from 1 (``Extremely worried'') to 5 (``Not at all worried''). This allows us to measure the extent to which individuals feel a sense of threat.
+
+If an individual is worried about contracting COVID-19 but trusts the government's response, she may not be mobilized by the pandemic. She might have lowered levels of efficacy because she feels that her safety is out of her control, or she may avoid the polls because of perceived health threats. Conversely, if a voter believes that the government has mishandled the pandemic but is not particularly worried about catching the virus, she might also not be mobilized. Lack of fear might point to the pandemic as a low-salience issue incapable of mobilizing. We theorize, however, that voters who are both worried about contracting the disease \emph{and} believe the government has handled the pandemic poorly will be mobilized. This analysis will help us to contextualize any treatment effects observed using the administrative records in the previous section.
+
+\newpage
+
+\hypertarget{references}{%
+\subsection*{References}\label{references}}
+\addcontentsline{toc}{subsection}{References}
+
+\hypertarget{refs}{}
+\begin{cslreferences}
+\leavevmode\hypertarget{ref-Blow2020}{}%
+Blow, Charles M. 2020. ``Can We Call Trump a Killer?'' \emph{The New York Times: Opinion}, June 24, 2020. \url{https://www.nytimes.com/2020/06/24/opinion/trump-coronavirus-deaths.html}.
+
+\leavevmode\hypertarget{ref-Calia2020}{}%
+Calia, Mike. 2020. ``Full Interview: President Trump Discusses Trade, Impeachment, Boeing and Elon Musk with CNBC in Davos.'' \emph{CNBC: Davos WEF}, January 22, 2020. \url{https://www.cnbc.com/2020/01/22/davos-2020-cnbcs-full-interview-with-president-trump.html}.
+
+\leavevmode\hypertarget{ref-Douglas2020}{}%
+Douglas, Jason. 2020. ``As Coronavirus Surges in U.S., Some Countries Have Just About Halted It.'' \emph{Wall Street Journal: World}, July 6, 2020. \url{https://www.wsj.com/articles/as-coronavirus-surges-in-u-s-some-countries-have-just-about-halted-it-11594037814}.
+
+\leavevmode\hypertarget{ref-Emmenegger2015}{}%
+Emmenegger, Patrick, Paul Marx, and Dominik Schraff. 2015. ``Labour Market Disadvantage, Political Orientations and Voting: How Adverse Labour Market Experiences Translate into Electoral Behaviour.'' \emph{Socio-Economic Review} 13 (2): 189--213. \url{https://doi.org/10.1093/ser/mwv003}.
+
+\leavevmode\hypertarget{ref-Fan2004}{}%
+Fan, Jessie X., and Cathleen D. Zick. 2004. ``The Economic Burden of Health Care, Funeral, and Burial Expenditures at the End of Life.'' \emph{Journal of Consumer Affairs} 38 (1): 35--55. \url{https://doi.org/10.1111/j.1745-6606.2004.tb00464.x}.
+
+\leavevmode\hypertarget{ref-Fitzpatrick2020}{}%
+Fitzpatrick, Alex. 2020. ``Why the U.S. Is Losing the War on COVID-19.'' \emph{Time}, August 13, 2020. \url{https://time.com/5879086/us-covid-19/}.
+
+\leavevmode\hypertarget{ref-Frum2020}{}%
+Frum, David. 2020. ``This Is Trump's Plague Now.'' The Atlantic. June 29, 2020. \url{https://www.theatlantic.com/ideas/archive/2020/06/this-is-trumps-plague-now/613633/}.
+
+\leavevmode\hypertarget{ref-Golden2020}{}%
+Golden, Hallie. 2020. ``Coronavirus: Washington State at Center of US Outbreak as 18 Cases Confirmed.'' \emph{The Guardian: World News}, March 3, 2020. \url{https://www.theguardian.com/world/2020/mar/02/washington-state-coronavirus-outbreak-nursing-home}.
+
+\leavevmode\hypertarget{ref-Hassell2017}{}%
+Hassell, Hans J. G., and Jaime E. Settle. 2017. ``The Differential Effects of Stress on Voter Turnout.'' \emph{Political Psychology} 38 (3): 533--50. \url{https://doi.org/10.1111/pops.12344}.
+
+\leavevmode\hypertarget{ref-Hobbs2014}{}%
+Hobbs, William R., Nicholas A. Christakis, and James H. Fowler. 2014. ``Widowhood Effects in Voter Participation.'' \emph{American Journal of Political Science} 58 (1): 1--16. \url{https://doi.org/10.1111/ajps.12040}.
+
+\leavevmode\hypertarget{ref-Lu2020}{}%
+Lu, Denise. 2020. ``The True Coronavirus Toll in the U.S. Has Already Surpassed 200,000.'' \emph{The New York Times: U.S.}, August 13, 2020. \url{https://www.nytimes.com/interactive/2020/08/12/us/covid-deaths-us.html}.
+
+\leavevmode\hypertarget{ref-Margalit2019}{}%
+Margalit, Yotam. 2019. ``Political Responses to Economic Shocks.'' \emph{Annual Review of Political Science} 22 (1): 277--95. \url{https://doi.org/10.1146/annurev-polisci-050517-110713}.
+
+\leavevmode\hypertarget{ref-Marx2016}{}%
+Marx, Paul, and Christoph Nguyen. 2016. ``Are the Unemployed Less Politically Involved? A Comparative Study of Internal Political Efficacy.'' \emph{European Sociological Review} 32 (5): 634--48. \url{https://doi.org/10.1093/esr/jcw020}.
+
+\leavevmode\hypertarget{ref-McNerthney2020}{}%
+McNerthney, Casey. 2020. ``Coronavirus in Washington State: A Timeline of the Outbreak Through March 2020.'' \emph{KIRO}, April 3, 2020. \url{https://www.kiro7.com/news/local/coronavirus-washington-state-timeline-outbreak/IM65JK66N5BYTIAPZ3FUZSKMUE/}.
+
+\leavevmode\hypertarget{ref-Moon2020}{}%
+Moon, Sarah. 2020. ``A Seemingly Healthy Woman's Sudden Death Is Now the First Known US Coronavirus-Related Fatality.'' \emph{CNN}, April 24, 2020. \url{https://www.cnn.com/2020/04/23/us/california-woman-first-coronavirus-death/index.html}.
+
+\leavevmode\hypertarget{ref-Mystal2020}{}%
+Mystal, Elie. 2020. ``The Deaths of 150,000 Americans Are on Trump's Hands,'' August 3, 2020. \url{https://www.thenation.com/article/society/coronavirus-trump-crimes/}.
+
+\leavevmode\hypertarget{ref-Pacheco2015}{}%
+Pacheco, Julianna, and Jason Fletcher. 2015. ``Incorporating Health into Studies of Political Behavior: Evidence for Turnout and Partisanship.'' \emph{Political Research Quarterly} 68 (1): 104--16. \url{https://doi.org/10.1177/1065912914563548}.
+
+\leavevmode\hypertarget{ref-whitehouse2020}{}%
+``Remarks by President Trump at a USMCA Celebration with American Workers \textbar{} Warren, MI.'' 2020. The White House. January 30, 2020. \url{https://www.whitehouse.gov/briefings-statements/remarks-president-trump-usmca-celebration-american-workers-warren-mi/}.
+
+\leavevmode\hypertarget{ref-Rosenstone1982}{}%
+Rosenstone, Steven J. 1982. ``Economic Adversity and Voter Turnout.'' \emph{American Journal of Political Science} 26 (1): 25--46. \url{https://doi.org/10.2307/2110837}.
+
+\leavevmode\hypertarget{ref-Saletan2020}{}%
+Saletan, William. n.d. ``How Trump Killed Tens of Thousands of Americans.'' Slate Magazine. Accessed August 13, 2020. \url{https://slate.com/news-and-politics/2020/08/trump-coronavirus-deaths-timeline.html}.
+
+\leavevmode\hypertarget{ref-Sandell2005}{}%
+Sandell, Julianna, and Eric Plutzer. 2005. ``Families, Divorce and Voter Turnout in the US.'' \emph{Political Behavior} 27 (2): 133--62. \url{https://doi.org/10.1007/s11109-005-3341-9}.
+
+\leavevmode\hypertarget{ref-Sekhon2011}{}%
+Sekhon, Jasjeet S. 2011. ``Multivariate and Propensity Score Matching Software with Automated Balance Optimization: The Matching Package for R.'' \emph{Journal of Statistical Software} 42 (1): 1--52. \url{https://doi.org/10.18637/jss.v042.i07}.
+
+\leavevmode\hypertarget{ref-Shear2020}{}%
+Shear, Michael D., Noah Weiland, Eric Lipton, Maggie Haberman, and David E. Sanger. 2020. ``Inside Trump's Failure: The Rush to Abandon Leadership Role on the Virus.'' \emph{The New York Times: U.S.}, July 18, 2020. \url{https://www.nytimes.com/2020/07/18/us/politics/trump-coronavirus-response-failure-leadership.html}.
+
+\leavevmode\hypertarget{ref-Wan2020}{}%
+Wan, William. 2020. ``WHO Declares a Pandemic of Coronavirus Disease Covid-19.'' \emph{Washington Post}, March 11, 2020. \url{https://www.washingtonpost.com/health/2020/03/11/who-declares-pandemic-coronavirus-disease-covid-19/}.
+
+\leavevmode\hypertarget{ref-White2019a}{}%
+White, Ariel. 2019. ``Family Matters? Voting Behavior in Households with Criminal Justice Contact.'' \emph{American Political Science Review} 113 (2): 607--13. \url{https://doi.org/10.1017/S0003055418000862}.
+
+\leavevmode\hypertarget{ref-Wyatt1999}{}%
+Wyatt, Gwen K., Laurie Friedman, Charles W. Given, and Barbara A. Given. 1999. ``A Profile of Bereaved Caregivers Following Provision of Terminal Care.'' \emph{Journal of Palliative Care} 15 (1): 13--25. \url{https://doi.org/10.1177/082585979901500103}.
+\end{cslreferences}
+
+\end{document}
