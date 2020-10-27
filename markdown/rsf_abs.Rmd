@@ -1,0 +1,55 @@
+---
+title: "Grief and Anger: Disentangling the Effects of COVID-19 on Turnout"
+subtitle: ""
+thanks: Thanks.
+author: Kevin Morris^[Researcher, Brennan Center for Justice at NYU School of Law, 120 Broadway Ste 1750, New York, NY 10271 (kevin.morris@nyu.edu)]
+institute: "Brennan Center for Justice"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  bookdown::pdf_document2:
+    toc: no
+    fig_caption: yes
+    latex_engine: xelatex
+    keep_tex: true
+bibliography: "wa_covid.bib"
+link-citations: yes
+fontsize: 12pt
+header-includes:
+    - \usepackage{rotating}
+    - \usepackage{setspace}
+    - \usepackage{lineno}
+    # - \linenumbers
+abstract: |
+  The novel coronavirus SARS-CoV-2 (COVID-19) has upended normal routines across the United States. More than 150 thousand Americans have died of COVID-19, and more than 5 million have tested positive for the illness. At the same time, there is widespread perception that the government's response to the pandemic has been lackluster. This manuscript tests whether the coronavirus has been mobilizing for voters most directly impacted by pandemic. By leveraging individual-level death records from Washington State, we identify registered voters who lived with individuals who died from COVID-19, measuring their 2020 turnout against voters who lived with individuals who died from other causes, and voters who did not live with anyone who died. These analyses are supplemented with survey data exploring whether COVID-19 was differently mobilizing for voters who believed the government mishandled the public response.
+---
+\pagenumbering{gobble}
+\pagebreak
+```{r setup, echo = F, message = F, warning = F}
+knitr::opts_knit$set(root.dir = "..", dev = "cairo_pdf")
+library(systemfit)
+library(AER)
+library(sandwich)
+library(lmtest)
+library(scales)
+library(tidyverse)
+library(extrafont)
+library(kableExtra)
+library(data.table)
+library(stargazer)
+```
+\pagenumbering{arabic}
+<!-- \doublespacing -->
+On January 21, 2020, the first case of SARS-CoV-2 (or "COVID-19") was confirmed in the United States in Washington State [@McNerthney2020]. By the time of the 2020 presidential election, more than 8.3 million Americans had tested positive for the novel coronavirus, with more than 220 thousand dead [@nyt2020]. These extraordinary upheavals to everyday life occurred against an impending presidential election in the United States. On November 3, 2020, Americans cast ballots deciding whether to re-elect president Trump or rather election Joseph Biden. Understanding how the pandemic shaped voters' behavior and preferences is of key importance in the aftermath of such a historic contest, and this manuscript sheds light on how personal contact with the novel coronavirus impacted voters. Using individual-level death records from the state of Washington, we identify voters who lived with individuals who perished from COVID-19. We compare their turnout to the turnout of voters who lived with individuals who died from other causes, as well as voters who did not live with anyone who died. We then look to national survey data to understand if the salience of the pandemic and respondents' beliefs about the federal government's response was associated with voter turnout.
+
+Though little existing literature relates the exogenous shock of the death of a loved one to political participation, political scientists have long noted that voters vote at lower rates when faced with competing demands on their time. After exploring the impact of economic adversity on turnout, Rosenstone [-@Rosenstone1982, page 42, emphasis added] argues that "theories of political participation must take into account not only the costs associated specifically with the act of participation but other life circumstances that also place demands on the citizen... [conditions] such as marital problems, *family illness, death of a close friend or relative*, problems at work, or a change of residences also surely increase the opportunity costs of political participation." The opportunity cost literature suggests that the death of a loved one decreases political participation.
+
+On the other hand, a "solid body of evidence... indicates that political mobilization is a direct response to the degree of threat and discrimination a group experiences" [@Cho2006a, page 978]. The political threat literature indicates that voters who believe that they are being negatively targeted by policy can be actively mobilized. Given that the effects of the pandemic have been concentrated in marginalized communities, it seems possible that the pandemic could serve as the type of threat that mobilizes voter turnout.
+
+@Walker2020a offers key insight into how a traditionally demobilizing experience can instead become a force for mobilization. She examines the effects of contact with the criminal justice system on political participation, interactions historically understood as reducing participation at all levels. Walker finds, however, that the demobilizing effect of contact with the criminal justice system is moderated by how an individual locates their experience in the context of national policy. She introduces the injustice framework, arguing that when individuals believe that their criminal justice involvement arises from unjust systemic forces, they can be mobilized to undertake political actions. If the voters who have been most directly impacted from COVID-19 via the death of a household member link that experience with an unjust response from the government, they might be mobilized to vote.
+
+Voters who lived with individuals who died from COVID-19 might thus have been subject to treatments pushing in two different directions. This study will use individual-level death records from Washington State to decompose these treatment effects. Using a triple-differences framework, I will compare the turnout of voters who lived with individuals who died from COVID-19 to voters who lived with individuals who died from other causes, *and* to voters who lived with no one who died. The state of Washington has been selected both because of the availability of individual-level death records and because it was the first state hit by the COVID-19 pandemic, allowing me to see how treatment effects are moderated by date-of-death. Genetic matching [@Sekhon2011] will be used to ensure that the three groups are similar along observable characteristics, and each voter's individual vote-history will be used for the difference-in-differences modeling. I expect to show that voters whose household members died turned out at *lower* rates than voters whose housemates did not die, but *higher* rates than those whose household members died from other causes.
+
+The individual-level analyses will be supplemented using national survey data to explore the interactive effects of voters' perception of the salience of the pandemic and how politicized it is. The American National Election Studies will ask voters both how afraid they are of the pandemic, and how they feel the federal government's response has been. I expect that, absent strong feelings on the federal government's response, fear of the pandemic will be negatively linked with turnout. However, I expect that voters with high levels of fear *and* strong feelings about the federal response will exhibit higher levels of turnout.
+
+
+# References {-}

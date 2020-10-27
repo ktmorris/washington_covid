@@ -1,0 +1,148 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  12pt,
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Grief and Anger: Disentangling the Effects of COVID-19 on Turnout},
+  pdfauthor={Kevin Morris},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage{rotating}
+\usepackage{setspace}
+\usepackage{lineno}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newenvironment{cslreferences}%
+  {\setlength{\parindent}{0pt}%
+  \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces}%
+  {\par}
+
+\title{Grief and Anger: Disentangling the Effects of COVID-19 on Turnout\thanks{Thanks.}}
+\author{Kevin Morris\footnote{Researcher, Brennan Center for Justice at NYU School of Law, 120 Broadway Ste 1750, New York, NY 10271 (\href{mailto:kevin.morris@nyu.edu}{\nolinkurl{kevin.morris@nyu.edu}})}}
+\date{October 27, 2020}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+The novel coronavirus SARS-CoV-2 (COVID-19) has upended normal routines across the United States. More than 150 thousand Americans have died of COVID-19, and more than 5 million have tested positive for the illness. At the same time, there is widespread perception that the government's response to the pandemic has been lackluster. This manuscript tests whether the coronavirus has been mobilizing for voters most directly impacted by pandemic. By leveraging individual-level death records from Washington State, we identify registered voters who lived with individuals who died from COVID-19, measuring their 2020 turnout against voters who lived with individuals who died from other causes, and voters who did not live with anyone who died. These analyses are supplemented with survey data exploring whether COVID-19 was differently mobilizing for voters who believed the government mishandled the public response.
+\end{abstract}
+
+\pagenumbering{gobble}
+\pagebreak
+
+\pagenumbering{arabic}
+
+On January 21, 2020, the first case of SARS-CoV-2 (or ``COVID-19'') was confirmed in the United States in Washington State (McNerthney \protect\hyperlink{ref-McNerthney2020}{2020}). By the time of the 2020 presidential election, more than 8.3 million Americans had tested positive for the novel coronavirus, with more than 220 thousand dead (\emph{New York Times: U.S.} \protect\hyperlink{ref-nyt2020}{2020}). These extraordinary upheavals to everyday life occurred against an impending presidential election in the United States. On November 3, 2020, Americans cast ballots deciding whether to re-elect president Trump or rather election Joseph Biden. Understanding how the pandemic shaped voters' behavior and preferences is of key importance in the aftermath of such a historic contest, and this manuscript sheds light on how personal contact with the novel coronavirus impacted voters. Using individual-level death records from the state of Washington, we identify voters who lived with individuals who perished from COVID-19. We compare their turnout to the turnout of voters who lived with individuals who died from other causes, as well as voters who did not live with anyone who died. We then look to national survey data to understand if the salience of the pandemic and respondents' beliefs about the federal government's response was associated with voter turnout.
+
+Though little existing literature relates the exogenous shock of the death of a loved one to political participation, political scientists have long noted that voters vote at lower rates when faced with competing demands on their time. After exploring the impact of economic adversity on turnout, Rosenstone (\protect\hyperlink{ref-Rosenstone1982}{1982}, 42, emphasis added) argues that ``theories of political participation must take into account not only the costs associated specifically with the act of participation but other life circumstances that also place demands on the citizen\ldots{} {[}conditions{]} such as marital problems, \emph{family illness, death of a close friend or relative}, problems at work, or a change of residences also surely increase the opportunity costs of political participation.'' The opportunity cost literature suggests that the death of a loved one decreases political participation.
+
+On the other hand, a ``solid body of evidence\ldots{} indicates that political mobilization is a direct response to the degree of threat and discrimination a group experiences'' (Cho, Gimpel, and Wu \protect\hyperlink{ref-Cho2006a}{2006}, 978). The political threat literature indicates that voters who believe that they are being negatively targeted by policy can be actively mobilized. Given that the effects of the pandemic have been concentrated in marginalized communities, it seems possible that the pandemic could serve as the type of threat that mobilizes voter turnout.
+
+Walker (\protect\hyperlink{ref-Walker2020a}{2020}) offers key insight into how a traditionally demobilizing experience can instead become a force for mobilization. She examines the effects of contact with the criminal justice system on political participation, interactions historically understood as reducing participation at all levels. Walker finds, however, that the demobilizing effect of contact with the criminal justice system is moderated by how an individual locates their experience in the context of national policy. She introduces the injustice framework, arguing that when individuals believe that their criminal justice involvement arises from unjust systemic forces, they can be mobilized to undertake political actions. If the voters who have been most directly impacted from COVID-19 via the death of a household member link that experience with an unjust response from the government, they might be mobilized to vote.
+
+Voters who lived with individuals who died from COVID-19 might thus have been subject to treatments pushing in two different directions. This study will use individual-level death records from Washington State to decompose these treatment effects. Using a triple-differences framework, I will compare the turnout of voters who lived with individuals who died from COVID-19 to voters who lived with individuals who died from other causes, \emph{and} to voters who lived with no one who died. The state of Washington has been selected both because of the availability of individual-level death records and because it was the first state hit by the COVID-19 pandemic, allowing me to see how treatment effects are moderated by date-of-death. Genetic matching (Sekhon \protect\hyperlink{ref-Sekhon2011}{2011}) will be used to ensure that the three groups are similar along observable characteristics, and each voter's individual vote-history will be used for the difference-in-differences modeling. I expect to show that voters whose household members died turned out at \emph{lower} rates than voters whose housemates did not die, but \emph{higher} rates than those whose household members died from other causes.
+
+The individual-level analyses will be supplemented using national survey data to explore the interactive effects of voters' perception of the salience of the pandemic and how politicized it is. The American National Election Studies will ask voters both how afraid they are of the pandemic, and how they feel the federal government's response has been. I expect that, absent strong feelings on the federal government's response, fear of the pandemic will be negatively linked with turnout. However, I expect that voters with high levels of fear \emph{and} strong feelings about the federal response will exhibit higher levels of turnout.
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\begin{cslreferences}
+\leavevmode\hypertarget{ref-Cho2006a}{}%
+Cho, Wendy K. Tam, James G. Gimpel, and Tony Wu. 2006. ``Clarifying the Role of SES in Political Participation: Policy Threat and Arab American Mobilization.'' \emph{Journal of Politics} 68 (4): 977--91. \url{https://doi.org/10.1111/j.1468-2508.2006.00482.x}.
+
+\leavevmode\hypertarget{ref-McNerthney2020}{}%
+McNerthney, Casey. 2020. ``Coronavirus in Washington State: A Timeline of the Outbreak Through March 2020.'' \emph{KIRO}, April 3, 2020. \url{https://www.kiro7.com/news/local/coronavirus-washington-state-timeline-outbreak/IM65JK66N5BYTIAPZ3FUZSKMUE/}.
+
+\leavevmode\hypertarget{ref-nyt2020}{}%
+\emph{New York Times: U.S.} 2020. ``Covid in the U.S.: Latest Map and Case Count,'' July 20, 2020. \url{https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html}.
+
+\leavevmode\hypertarget{ref-Rosenstone1982}{}%
+Rosenstone, Steven J. 1982. ``Economic Adversity and Voter Turnout.'' \emph{American Journal of Political Science} 26 (1): 25--46. \url{https://doi.org/10.2307/2110837}.
+
+\leavevmode\hypertarget{ref-Sekhon2011}{}%
+Sekhon, Jasjeet S. 2011. ``Multivariate and Propensity Score Matching Software with Automated Balance Optimization: The Matching Package for R.'' \emph{Journal of Statistical Software} 42 (1): 1--52. \url{https://doi.org/10.18637/jss.v042.i07}.
+
+\leavevmode\hypertarget{ref-Walker2020a}{}%
+Walker, Hannah L. 2020. \emph{Mobilized by Injustice: Criminal Justice Contact, Political Participation, and Race}. 1st ed. Oxford University Press. \url{https://doi.org/10.1093/oso/9780190940645.001.0001}.
+\end{cslreferences}
+
+\end{document}
