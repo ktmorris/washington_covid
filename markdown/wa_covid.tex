@@ -5,8 +5,8 @@
 \documentclass[
   12pt,
 ]{article}
+\usepackage{amsmath,amssymb}
 \usepackage{lmodern}
-\usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
@@ -43,7 +43,8 @@
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
-\usepackage{longtable,booktabs}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
 \makeatletter
@@ -86,93 +87,168 @@
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
 \usepackage{xcolor}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.5em}
-\newenvironment{cslreferences}%
-  {\setlength{\parindent}{0pt}%
-  \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces}%
-  {\par}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 \title{Grief and Anger: Disentangling the Effects of COVID-19 on Turnout\thanks{Thanks.}}
 \author{Kevin Morris\footnote{Researcher, Brennan Center for Justice at NYU School of Law, 120 Broadway Ste 1750, New York, NY 10271 (\href{mailto:kevin.morris@nyu.edu}{\nolinkurl{kevin.morris@nyu.edu}})}}
-\date{October 22, 2020}
+\date{August 24, 2021}
 
 \begin{document}
 \maketitle
 \begin{abstract}
-The novel coronavirus SARS-CoV-2 (COVID-19) has upended normal routines across the United States. More than 150 thousand Americans have died of COVID-19, and more than 5 million have tested positive for the illness. At the same time, there is widespread perception that the government's response to the pandemic has been lackluster. This manuscript tests whether the coronavirus has been mobilizing for voters most directly impacted by pandemic. By leveraging individual-level death records from Washington State, we identify registered voters who lived with individuals who died from COVID-19, measuring their 2020 turnout against voters who lived with individuals who died from other causes, and voters who did not live with anyone who died. These analyses are supplemented with survey data exploring whether COVID-19 was differently mobilizing for voters who believed the government mishandled the public response.
+The novel coronavirus SARS-CoV-2 (COVID-19) has upended normal routines across the United States. Nearly 600 thousand Americans have died of COVID-19, and more than 33 million have tested positive for the illness. At the same time, there is widespread perception that the government's response to the pandemic has been lackluster, and the racial disparities are clear. This manuscript tests whether COVID mobilized nonwhite voters to participate on the basis of political threat, or was simply a discouraging event. By leveraging individual-level death records from Washington State, I identify registered voters who lived with individuals who died from COVID- 19, testing whether this was a mobilizing effect, especially for non-white voters. These analyses are supplemented with survey data exploring whether COVID-19 was differ- ently mobilizing for voters depending on how close they feel to their racial or ethnic group.
 \end{abstract}
 
 \pagenumbering{gobble}
 \pagebreak
 
 \pagenumbering{arabic}
+\doublespacing
 
 \hypertarget{introduction}{%
 \subsection*{Introduction}\label{introduction}}
 \addcontentsline{toc}{subsection}{Introduction}
 
-On January 21, 2020, the first case of SARS-CoV-2 (or ``COVID-19'') was confirmed in the state of Washington (McNerthney \protect\hyperlink{ref-McNerthney2020}{2020}). President Donald Trump made his first public comments on the new virus the next day from Davos, telling CNBC ``we have it totally under control. It's one person coming in from China, and we have it under control'' (Calia \protect\hyperlink{ref-Calia2020}{2020}). A few days later, on January 30, he said at a manufacturing plant in Michigan that ``we think we have it very well under control,'' assuring listeners that ``it's going to have a very good ending for it'' (``Remarks by President Trump at a USMCA Celebration with American Workers \textbar{} Warren, MI'' \protect\hyperlink{ref-whitehouse2020}{2020}). Meanwhile, cases were identified in states across the country. The first confirmed death attributed to COVID-19 occurred in Northern California on February 4th (Moon \protect\hyperlink{ref-Moon2020}{2020}). By early March, Washington State was being called the center of the outbreak in the United States (Golden \protect\hyperlink{ref-Golden2020}{2020}), although New York City would soon claim that dubious honor. By the time of the 2020 presidential election, more than 8.3 million Americans had tested positive for the novel coronavirus, with more than 220 thousand dead (\emph{New York Times: U.S.} \protect\hyperlink{ref-nyt2020}{2020}). Reporting from a few months earlier, however, indicates that the official reports may be undercounts (Lu \protect\hyperlink{ref-Lu2020}{2020}).
+Introduction
+On January 21, 2020, the first case of SARS-CoV-2 (or ``COVID-19'') was confirmed in the state of Washington (\protect\hyperlink{ref-McNerthney2020}{McNerthney 2020}). President Donald Trump made his first public comments on the new virus the next day from Davos, telling CNBC ``we have it totally under control. It's one person coming in from China, and we have it under control'' (\protect\hyperlink{ref-Calia2020}{Calia 2020}). A few days later, on January 30, he said at a manufacturing plant in Michigan that ``we think we have it very well under control,'' assuring listeners that ``it's going to have a very good ending for it'' (\protect\hyperlink{ref-whitehouse2020}{{``Remarks by {President Trump} at a {USMCA Celebration} with {American Workers}''} 2020}). Meanwhile, cases were identified in states across the country. The first confirmed death attributed to COVID-19 occurred in Northern California on February 4th (\protect\hyperlink{ref-Moon2020}{Moon 2020}). By early March, Washington State was being called the center of the outbreak in the United States (\protect\hyperlink{ref-Golden2020}{Golden 2020}), although New York City would soon claim that dubious honor. By the time of the 2020 presidential election, more than 8.3 million Americans had tested positive for the novel coronavirus, with more than 220 thousand dead (\protect\hyperlink{ref-nyt2020}{\emph{New York Times: U.S.} 2020}). Reporting from a few months earlier, however, indicates that the official reports may be undercounts (\protect\hyperlink{ref-Lu2020}{Lu 2020}).
 
-Although the World Health Organization declared COVID-19 a pandemic on March 11 (Wan \protect\hyperlink{ref-Wan2020}{2020}), the response from the United State's federal government was slow. In the months to come, the Trump Administration would push responsibility to states and local governments, downplay the severity of the pandemic, and argue against the widespread stay-at-home orders promoted by public health experts (Shear et al. \protect\hyperlink{ref-Shear2020}{2020}). Much of the United States remained at home throughout the summer even as peer nations were able to return to more normal daily life (Douglas \protect\hyperlink{ref-Douglas2020}{2020}). The Trump Administration's response to the pandemic has consistently been criticized in the press, with Time Magazine reporting that a "complete catalog of Trump's failures to adequately address the pandemic is the stuff of books, not single articles' (Fitzpatrick \protect\hyperlink{ref-Fitzpatrick2020}{2020}).
+Although the World Health Organization declared COVID-19 a pandemic on March 11 (\protect\hyperlink{ref-Wan2020}{Wan 2020}), the response from the United States' federal government was slow. In the months to come, the Trump Administration would push responsibility to states and local governments, downplay the severity of the pandemic, and argue against the widespread stay-at-home orders promoted by public health experts (\protect\hyperlink{ref-Shear2020}{Shear et al. 2020}). Much of the United States remained at home throughout the summer even as peer nations were able to return to more normal daily life (\protect\hyperlink{ref-Douglas2020}{Douglas 2020}). The Trump Administration's response to the pandemic was consistently criticized in the press, with Time Magazine arguing that a ``complete catalog of Trump's failures to adequately address the pandemic is the stuff of books, not single articles'' (\protect\hyperlink{ref-Fitzpatrick2020}{Fitzpatrick 2020}).
 
-These extraordinary upheavals to everyday life occurred against an impending presidential election in the United States. On November 3, 2020, Americans cast ballots deciding whether to re-elect president Trump or rather election Joseph Biden. Understanding how the pandemic shaped voters' behavior and preferences is of key importance in the aftermath of such a historic contest, and this manuscript sheds light on how personal contact with the novel coronavirus impacted voters. Using individual-level death records from the state of Washington, we identify voters who lived with individuals who perished from COVID-19. We compare their turnout to the turnout of voters who lived with individuals who died from other causes, as well as voters who did not live with anyone who died. We then look to national survey data to understand if the salience of the pandemic and respondents' beliefs about the federal government's response was associated with voter turnout.
+The COVID-19 pandemic did not hit all Americans equally. A burgeoning literature is beginning to examine the racially disparate impact the virus has had on communities of color---and, in particular, Black communities. Although comprehensive data are not available in all states, an early study looked at the racial breakdown in hospitalizations in 12 states between April 30 and June 24, 2020 (\protect\hyperlink{ref-Karaca-Mandic2021}{Karaca-Mandic, Georgiou, and Sen 2021}). In each of the 12 states, whites made up a far lower share of the hospitalized population than the statewide residential population, while ``the percentage of hospitalizations among Black patients exceeded the percentage of their representative proportion of the state population in all 12 states'' (\protect\hyperlink{ref-Karaca-Mandic2021}{Karaca-Mandic, Georgiou, and Sen 2021, 133}). Similarly, a report from the Centers for Disease Control and Prevention found evidence of highly racially disparate hospitalization rates early in the pandemic (\protect\hyperlink{ref-Garg2020}{Garg et al. 2020}). These trends continued into the spring of 2021---as of April 23rd that year, Black and Latino Americans had died from COVID-19 at roughly twice the rate of white Americans; this figure was even higher for Native Americans (\protect\hyperlink{ref-cdc2021}{{``Cases, {Data}, and {Surveillance}''} 2021}). Scholars are already identifying the ways in which systemic racism---and not ``inherent'' or ``biological'' racial differences---have led to these discrepancies (\protect\hyperlink{ref-Johnson-Agbakwu2020}{Johnson-Agbakwu et al. 2020}; \protect\hyperlink{ref-Egede2020}{Egede and Walker 2020}).
+
+Our understanding of the electoral effects of threatening policy has grown in recent years, with scholars arguing that discriminatory governmental (in)action can lead to higher voter turnout among impacted communities (\protect\hyperlink{ref-HoSang2010}{HoSang 2010}). The COVID-19 pandemic presents a unique opportunity to extend our understanding of the mechanisms of this ``political threat,'' particularly as it applies to racial and ethnic minorities. When citizens feel that they are being targeted by their government because of their racial or ethnic identity, such targeting can lead to greater political knowledge, higher likelihood of attending protests, and increased propensity to cast a ballot. Sometimes framed as backlash against a racially discriminatory government, it seems that---under certain circumstances---racial minorities understand the political sphere as a site for contesting this aggressive state action.
+
+At the same time, many of these ``political threats'' that have spurred increased turnout among minorities are also linked with \emph{demobilizing} effects in other work. The effects of political efficacy on political participation have been studied extensively over the past half-century: it is fairly well settled that higher external efficacy---that is, a belief in the ``responsiveness of governmental authorities and institutions to citizens' demands'' (\protect\hyperlink{ref-Niemi1991}{Niemi, Craig, and Mattei 1991, 1408})---is associated with higher levels of participation (\protect\hyperlink{ref-Tarrow1998}{Tarrow 1998}). Government action that undermines citizens' belief in the responsiveness of the state, then, is likely to be demobilizing. Experiencing a discriminatory state could lower external efficacy and lead to a withdrawal from the political system. To be sure, the demobilizing potential of discriminatory action are not limited to efficacy mechanisms. Policies undermining individ- uals' ability to access government services, for instance, could place burdens on households, thus raising the opportunity cost of voting and decreasing turnout.
+
+\protect\hyperlink{ref-Nichols2020a}{Nichols and Valdéz} (\protect\hyperlink{ref-Nichols2020a}{2020}) draws attention to this discrepancy in the literature, asking scholars to think more explicitly about how policy threat transforms a potentially demobilizing context into a mobilizing one. This project uses the COVID-19 pandemic to do just that. The potential ``treatments'' from the pandemic are clear: on the one hand, the death of a loved one can cause voters to withdraw from the political process (e.g. \protect\hyperlink{ref-Hobbs2014}{Hobbs, Christakis, and Fowler 2014}). On the other hand, the racially disparate nature of the pandemic may have led voters to feel targeted because of their racial or ethnic identity. Using individual-level death records from the state of Washington, I decompose these two effects: by leveraging a triple-differences model, I estimate the separate turnout effects of living with someone who died
+from something other than COVID-19 and of living with someone who died from COVID-19, relative to voters who lived with no one who died. I expect that turnout was higher for minority voters whose housemates died from COVID-19, and that this difference captures the political threat response. Importantly, such a set-up allows me to identify a mobilizing effect from COVID-19 even if the overall treatment effect is negative. Put differently: if turnout was higher for voters whose housemates died from COVID than voters whose housemates died from another cause, I can identify a mobilizing effect from COVID---even if their actual turnout remains below that of voters who lived with no one who died.
+
+At the same time, the administrative data cannot give us insight into the psychological mechanisms at play. I argue that a sense of linked fate---that is, the sense that one's own life is shaped in no small part by one's racial identity (\protect\hyperlink{ref-Dawson1995}{Dawson 1995})---should activate mobilization in the face of a political threat. Using data from the 2020 Cooperative Election Study (CES) I show that contact with COVID-19 increased turnout for minorities with high levels of linked fate, but that contact with the virus was demobilizing for voters with low levels of linked fate.
 
 \hypertarget{literature-and-theory}{%
-\subsection*{Literature and Theory}\label{literature-and-theory}}
-\addcontentsline{toc}{subsection}{Literature and Theory}
+\section*{Literature and Theory}\label{literature-and-theory}}
+\addcontentsline{toc}{section}{Literature and Theory}
 
-We begin by considering the expected effect of the death of a household member in the context of the opportunity cost literature. Although there is little existing literature relating the exogenous shock of the death of a loved one to political participation (but see Hobbs, Christakis, and Fowler \protect\hyperlink{ref-Hobbs2014}{2014}), political scientists have long noted that voters vote at lower rates when faced with competing demands on their time. After exploring the impact of economic adversity on turnout, Rosenstone (\protect\hyperlink{ref-Rosenstone1982}{1982}, 42, emphasis added) argues that ``theories of political participation must take into account not only the costs associated specifically with the act of participation but other life circumstances that also place demands on the citizen\ldots{} {[}conditions{]} such as marital problems, \emph{family illness, death of a close friend or relative}, problems at work, or a change of residences also surely increase the opportunity costs of political participation.'' Caring for a sick loved one, as well as funereal costs, impose large financial burdens on households (e.g.~Fan and Zick \protect\hyperlink{ref-Fan2004}{2004}). Wyatt et al. (\protect\hyperlink{ref-Wyatt1999}{1999}) studied caregivers after the person for whom they were caring died, finding that these caregivers spent an average of 10.8 hours per day on direct care.
+\hypertarget{policy-threat}{%
+\subsection*{Policy Threat}\label{policy-threat}}
+\addcontentsline{toc}{subsection}{Policy Threat}
 
-Hobbs, Christakis, and Fowler (\protect\hyperlink{ref-Hobbs2014}{2014}) is unique in its investigation of the direct, short-term effects of the death of a spouse on voter turnout. They link records from the Social Security Master Death File to the California registered voter file to identify voters whose spouses had died in the months before and after the California Special Statewide 2009, Gubernatorial Primary 2010, and Gubernatorial General 2010 elections. Unsurprisingly, they find that voters whose spouses die immediately before or after an election are substantially less likely to vote than their matches controls, whose spouses did not die.
+When citizens link negative life circumstances to government action, such circumstances can lead to higher political involvement. \protect\hyperlink{ref-Piven1979}{Piven and Cloward} (\protect\hyperlink{ref-Piven1979}{1979}) and \protect\hyperlink{ref-Schlozman1979}{Schlozman and Verba} (\protect\hyperlink{ref-Schlozman1979}{1979}), for instance, document how workers become politically engaged when they understand their unemployment as a widespread phenomenon that demands collective government response and not an individual failure. Similarly, \protect\hyperlink{ref-Campbell2003a}{Campbell} (\protect\hyperlink{ref-Campbell2003a}{2003}) documents a surge in political letter writing among senior citizens in response to threats to Social Security and Medicare. There is some indication that the mobilization of a policy threat is particularly pronounced among voters with high personal efficacy (\protect\hyperlink{ref-Rudolph2000}{Rudolph, Gangl, and Stevens 2000}).
 
-Although little research has taken up Rosenstone's charge to explore the effects of family illness or death on voter turnout, the research on other types of household shocks is perhaps illustrative. There is a large body of literature indicating that economic shocks, such as the loss of a job, cause lower turnout, especially when these shocks are not linked to wider social circumstances (Emmenegger, Marx, and Schraff \protect\hyperlink{ref-Emmenegger2015}{2015}; Marx and Nguyen \protect\hyperlink{ref-Marx2016}{2016}; Margalit \protect\hyperlink{ref-Margalit2019}{2019}). Hassell and Settle (\protect\hyperlink{ref-Hassell2017}{2017}) argues that voters without a strong history of participation disengage from political life when faced with stressful situations, though individuals with a robust history of engagement are unaffected. Negative health events are also linked with lower turnout (Pacheco and Fletcher \protect\hyperlink{ref-Pacheco2015}{2015}); so too is divorce (Sandell and Plutzer \protect\hyperlink{ref-Sandell2005}{2005}). Each of these stressful life events demand a great deal of time, financial resources, and energy --- resources that cannot then be used to register to vote, to learn about candidates, or to locate one's polling place.
+Nowhere is the mobilizing potential of threatening policy clearer than when it comes to issues impacting racial and ethnic minorities. Much of this body of research can be traced back to proposed changes in California's policy toward Latino immigrants in the 1990s, when anti-immigrant proposals spurred Latin Americans to take political action (\protect\hyperlink{ref-HoSang2010}{HoSang 2010}). Scholars have increasingly used the framework of threat and electoral self-preservation to understand the political behavior of Latinos in many domains: \protect\hyperlink{ref-Zepeda-Millan2017}{Zepeda-Millán} (\protect\hyperlink{ref-Zepeda-Millan2017}{2017}), for instance, shows that threats at the federal level led to widespread participation in mass protests, while \protect\hyperlink{ref-White2016}{White} (\protect\hyperlink{ref-White2016}{2016}) argues that increased county-level immigration enforcement increases Latino turnout. These threats can take many forms: \protect\hyperlink{ref-White2016}{White} (\protect\hyperlink{ref-White2016}{2016}) analyzes the impact of racist immigration policy, while \protect\hyperlink{ref-Perez2015}{Pérez} (\protect\hyperlink{ref-Perez2015}{2015}) explores the impact of xenophobic rhetoric. Importantly, these analyses are not limited to the mobilization of Latinos. \protect\hyperlink{ref-Towler2018}{Towler and Parker} (\protect\hyperlink{ref-Towler2018}{2018}) finds that Black Americans with angier feelings toward Donald Trump were more likely to vote; they argue that this anger had its genesis in the threat Trump posed to Black America. \protect\hyperlink{ref-TamCho2006a}{Tam Cho, Gimpel, and Wu} (\protect\hyperlink{ref-TamCho2006a}{2006}) shows that Arab-Americans can also be prompted to political action by what they call ``worrisome government policy action''---and that this effect is largest among individuals with greatest access to political information. They sum up: ``A solid body of evidence\ldots{} indicates that political mobilization is a direct response to the degree of threat and discrimination a group experiences'' (\protect\hyperlink{ref-TamCho2006a}{Tam Cho, Gimpel, and Wu 2006, 978}).
 
-There are, however, circumstances in which adverse life conditions can mobilize voters: namely, when they link their conditions to broader societal issues and perceive a political threat. Piven and Cloward (\protect\hyperlink{ref-Piven1979}{1979}) and Schlozman and Verba (\protect\hyperlink{ref-Schlozman1979}{1979}), for instance, document how workers become politically engaged when they understand their unemployment as a widespread phenomenon that demands collective government response. Cho, Gimpel, and Wu (\protect\hyperlink{ref-Cho2006a}{2006}, 978) explains: ``A solid body of evidence\ldots{} indicates that political mobilization is a direct response to the degree of threat and discrimination a group experiences.'' Cho, Gimpel, and Wu (\protect\hyperlink{ref-Cho2006a}{2006}) examines the impact of Arab Americans' response to ``worrisome government policy actions,'' finding that citizens with greater access to political information were mobilized by these threats. Gutierrez et al. (\protect\hyperlink{ref-Gutierrez2019}{2019}) explores how racial threat mobilized Latinos in the 2016 presidential election, while White (\protect\hyperlink{ref-White2016}{2016}) demonstrates that increased immigration enforcement at the county-level increased Latinos' participation as well. The phenomenon is not limited to threats based on racial identity or joblessness: Campbell (\protect\hyperlink{ref-Campbell2003}{2003}), for instance, documents a surge in political letter writing among senior citizens in response to threats to Social Security and Medicare. There is some indication that the mobilization of a policy threat is particularly pronounced among voters with high personal efficacy (Rudolph, Gangl, and Stevens \protect\hyperlink{ref-Rudolph2000}{2000}).
+\protect\hyperlink{ref-TamCho2006a}{Tam Cho, Gimpel, and Wu} (\protect\hyperlink{ref-TamCho2006a}{2006}) is correct that much literature has established that actively threatening moves by the government can prompt large-scale responses, it is less clear whether government inaction with racially disparate effects can elicit the same response. In the aftermath of a global pandemic, as climate change threatens the nation, and with a deteriorating social safety net, the largest threats to American racial minorities in the years to come might follow less from \emph{bad} action than \emph{in}action. Understanding whether the
+government's failure to adequately respond to a disaster that disproportionately impacted nonwhite Americans prompted racial minorities to take action is of key importance.
 
-Walker (\protect\hyperlink{ref-Walker2020}{2020}) offers key insight into how a traditionally demobilizing experience can instead become a force for mobilization. She examines the effects of contact with the criminal justice system on political participation, interactions historically understood as reducing participation at all levels (see, for instance, Weaver and Lerman \protect\hyperlink{ref-Weaver2010}{2010}; Lerman and Weaver \protect\hyperlink{ref-Lerman2014}{2014}). Walker finds, however, that the demobilizing effect of contact with the criminal justice system is moderated by how an individual locates their experience in the context of national policy. She introduces the injustice framework, arguing that when individuals believe that their criminal justice involvement arises from unjust systemic forces, they can be mobilized to undertake political actions.
+At the same time, I take the critique of this literature made by \protect\hyperlink{ref-Nichols2020a}{Nichols and Valdéz} (\protect\hyperlink{ref-Nichols2020a}{2020}) seriously. They argue: ``the straightforward notion that racialized threat mobilizes Latinxs is weakened by the literature's tendency to overpredict political mobilization, overlook individual responses to threat, and disregard the role of mobilization structures'' (page 690). Specifically, they encourage scholars to ``account for both mobilization and demobilization as well as for the mechanisms that enable political actors to transform the latter into the former'' (page 690). To that end, I explicitly theorize and test the dual treatments involved in experiencing a tragedy for which the government is responsible.
 
-The political threat literature and Walker's injustice framework sheds light on the potential mechanism through which the novel coronavirus might increase turnout among voters most directly exposed. The racially disparate nature of the pandemic coupled with the widespread perception that the federal government did not take it seriously seems ripe for interpretations of unfairness and threat. The rhetoric widely used in the American press was that the damage inflicted by COVID-19 was thanks largely to political failures. ``The Deaths of 150,000 Americans Are on Trump's Hands,'' read a headline in The Nation (Mystal \protect\hyperlink{ref-Mystal2020}{2020}). David Frum at the Atlantic called the pandemic ``Trump's Plague'' (Frum \protect\hyperlink{ref-Frum2020}{2020}) and Slate ran an article titled ``How Trump Killed Tens of Thousands of Americans'' (Saletan \protect\hyperlink{ref-Saletan2020}{2020}). ``Can We Call Trump a Killer?'' asked Blow (\protect\hyperlink{ref-Blow2020}{2020}) in the headline of a column at the New York Times. It would seem that, if a voter answered that question in the affirmative after losing a loved one to the pandemic, she might be mobilized to vote against the incumbent --- despite the disruptive nature of living with a loved one who died.
+\hypertarget{opportunity-cost}{%
+\subsection*{Opportunity Cost}\label{opportunity-cost}}
+\addcontentsline{toc}{subsection}{Opportunity Cost}
 
-By comparing the turnout of voters who lived with individuals who died from COVID-19 to both voters who lived with individuals who perished from other causes \emph{and} voters who lived with no one who died, this manuscript estimates the net effect of the pandemic on turnout, and the relative magnitude of the (depressive) opportunity-cost and (mobilizing) political-threat treatments. By using survey data to interrogate how the salience of COVID-19 and perceived missteps by the federal government interact to structure turnout, we also get insight into the causal mechanisms at play.
+I begin by considering the expected effect of the death of a household member in the context of the opportunity cost literature. Although there is little existing literature relating the exogenous shock of the death of a loved one to political participation (but see \protect\hyperlink{ref-Hobbs2014}{Hobbs, Christakis, and Fowler 2014}), political scientists have long noted that Americans vote at lower rates when faced with competing demands on their time. After exploring the impact of economic adversity on turnout, Rosenstone (\protect\hyperlink{ref-Rosenstone1982}{1982, 42}, emphasis added) argues that ``theories of political participation must take into account not only the costs associated specifically with the act of participation but other life circumstances that also place demands on the citizen\ldots{} {[}circumstances{]} such as marital problems, \emph{family illness, death of a close friend or relative}, problems at work, or a change of residences also surely increase the opportunity costs of political participation.'' Caring for a sick loved one, as well as funereal costs, impose large financial burdens on households (e.g. \protect\hyperlink{ref-Fan2004}{Fan and Zick 2004}). \protect\hyperlink{ref-Wyatt1999}{Wyatt et al.} (\protect\hyperlink{ref-Wyatt1999}{1999}) studied caregivers after the person for whom they were caring died, finding that these caregivers spent an average of 10.8 hours per day on direct care.
+
+\protect\hyperlink{ref-Hobbs2014}{Hobbs, Christakis, and Fowler} (\protect\hyperlink{ref-Hobbs2014}{2014}) is unique in its investigation of the direct, short-term effects of the death of a spouse on voter turnout. They link records from the Social Security Master Death File to the California registered voter file to identify voters whose spouses had died in the months before and after the California Special Statewide 2009, Gubernatorial Primary 2010, and Gubernatorial General 2010 elections. Unsurprisingly, they find that voters whose spouses die immediately before or after an election are substantially less likely to vote than their matches controls, whose spouses did not die.
+
+Although little research has taken up Rosenstone's charge to explore the effects of family illness or death on voter turnout, the research on other types of household shocks is perhaps illustrative. There is a large body of literature indicating that economic shocks, such as the loss of a job, cause lower turnout, especially when these shocks are not linked to wider social circumstances {[}\protect\hyperlink{ref-Emmenegger2015}{Emmenegger, Marx, and Schraff} (\protect\hyperlink{ref-Emmenegger2015}{2015}); \protect\hyperlink{ref-Marx2016}{Marx and Nguyen} (\protect\hyperlink{ref-Marx2016}{2016}); \protect\hyperlink{ref-Margalit2019}{Margalit} (\protect\hyperlink{ref-Margalit2019}{2019})). \protect\hyperlink{ref-Hassell2017}{Hassell and Settle} (\protect\hyperlink{ref-Hassell2017}{2017}) argues that voters without a strong history of participation disengage from political life when faced with stressful situations, though individuals with a robust history of engagement are unaffected. Negative health events are also linked with lower turnout (\protect\hyperlink{ref-Pacheco2015}{Pacheco and Fletcher 2015}); so too is divorce (\protect\hyperlink{ref-Sandell2005}{Sandell and Plutzer 2005}). Each of these stressful life events demand a great deal of time, financial resources, and energy---resources that cannot then be used to register to vote, to learn about candidates, or to locate one's polling place.
+
+\hypertarget{from-demobilizing-to-mobilizing}{%
+\subsection*{From Demobilizing to Mobilizing}\label{from-demobilizing-to-mobilizing}}
+\addcontentsline{toc}{subsection}{From Demobilizing to Mobilizing}
+
+The household shocks studied in the literature in the previous section differ in a crucial way from the study at hand: these shocks were generally not explicitly connected to government policy and may thus have not been politicizing. \protect\hyperlink{ref-Walker2020}{Walker} (\protect\hyperlink{ref-Walker2020}{2020}) offers key insight into how a traditionally demobilizing experience can instead become a force for political mobilization. She examines the effects of contact with the criminal legal system on political participation, interactions historically understood as reducing participation at all levels (see, for instance, \protect\hyperlink{ref-Weaver2010}{Weaver and Lerman 2010}; \protect\hyperlink{ref-Lerman2014}{Lerman and Weaver 2014}). Walker finds, however, that the demobilizing effect of contact with the criminal legal system is moderated by how an individual locates their experience in the context of national policy. She introduces the injustice framework, arguing that when individuals believe that their criminal legal involvement arises from unjust systemic forces, they can be mobilized to undertake political actions.
+
+The steady drumbeat of reporting on the Trump Administration's failures to respond adequately to the pandemic likely made this narrative of injustice easily accessible to voters. ``The Deaths of 150,000 Americans Are on Trump's Hands,'' read a headline in \emph{The Nation} (\protect\hyperlink{ref-Mystal2020}{Mystal 2020}). David Frum at \emph{The Atlantic} called the pandemic ``Trump's Plague'' (\protect\hyperlink{ref-Frum2020}{Frum 2020}) and \emph{Slate} ran an article titled ``How Trump Killed Tens of Thousands of Americans'' (\protect\hyperlink{ref-Saletan2020}{Saletan 2020}). ``Can We Call Trump a Killer?'' asked \protect\hyperlink{ref-Blow2020}{Blow} (\protect\hyperlink{ref-Blow2020}{2020}) in the headline of a column at \emph{The New York Times}. Importantly, the severe racial disparities in deaths arising from COVID-19 also received widespread coverage in both mainstream outlets and ones focusing on African Americans in particular (e.g. \protect\hyperlink{ref-Kolata2020}{Kolata 2020}; \protect\hyperlink{ref-Robinson2020}{Robinson 2020}; \protect\hyperlink{ref-Blount2020}{Blount 2020}). Insofar as the narrative of the federal government's responsibility for the devastation of the pandemic and its racially disparate effects were readily accessible to nonwhite Americans, it may have activated the mobilizing sense of injustice.
+
+Past work also indicates that group-level appeals are more effective for voters with strong attachments to the targeted identity. Recent work has demonstrated that this is especially clear among Latino Americans. ``Identity appeals can have powerful effects on turnout,'' argues Valenzuela and Michelson (\protect\hyperlink{ref-Valenzuela2016}{2016, 615}, emphasis added), ``but \emph{only when they target politicized identities to which individuals hold strong prior attachments.}'' Gutierrez et al.~{[}-Gutierrez2019, 973{]} comes to a similar conclusion, arguing that ``Latinos who share an immigrant-linked fate and those who felt that Latinos are racialized were more likely to feel angry during the 2016 election.'' It seems, then, that potentially demobilizing conditions (that is, a major party candidate undermining one's claims to citizenship and incorporation in the body politic) becomes mobilizing via a sense of linked fate.
+
+The injustice narrative thus provides one avenue through which COVID-19 might be especially mobilizing for racial and ethnic minorities; a sense of linked fate provides another. These potentially mobilizing effects occur in tandem with the potentially demobilizing effects associated with the death of a loved one. Following the guidance of \protect\hyperlink{ref-Nichols2020a}{Nichols and Valdéz} (\protect\hyperlink{ref-Nichols2020a}{2020}), this study seeks to decompose the opposing effects of COVID-19 to better understand their relative importance in the context of the COVID-19 pandemic.
 
 \hypertarget{research-design-and-data}{%
-\subsection*{Research Design and Data}\label{research-design-and-data}}
-\addcontentsline{toc}{subsection}{Research Design and Data}
+\section*{Research Design and Data}\label{research-design-and-data}}
+\addcontentsline{toc}{section}{Research Design and Data}
 
-Registered voters who lived with household members who died from COVID-19 received, in effect, two treatments. On the one hand, they faced an extreme upheaval in the death of a household member. As discussed above, there is evidence suggesting that such household-level shocks can reduce turnout. At the same time, however, these individuals were also deeply exposed to what many consider a massive policy failure --- the government's response to the pandemic. The political threat literature indicates that such exposure could be mobilizing.
+Registered voters who lived with household members who died from COVID-19 received, in effect, two treatments. On the one hand, they faced an extreme upheaval in the death of a household member. As discussed above, there is evidence suggesting that such household-level shocks can reduce turnout. At the same time, however, these individuals were also deeply exposed to what many consider a massive policy failure---the government's response to the pandemic. The political threat literature indicates that such exposure could be mobilizing.
 
 \hypertarget{double-matched-triple-differences}{%
-\subsubsection*{Double-Matched Triple-Differences}\label{double-matched-triple-differences}}
-\addcontentsline{toc}{subsubsection}{Double-Matched Triple-Differences}
+\subsection*{Double-Matched Triple-Differences}\label{double-matched-triple-differences}}
+\addcontentsline{toc}{subsection}{Double-Matched Triple-Differences}
 
-The primary data used for the initial section of this manuscript are administrative records from the State of Washington. We begin by identifying all individuals who died between January 1 and November 3, 2020.\footnote{See \url{https://www.doh.wa.gov/DataandStatisticalReports/HealthStatistics/Death}} These records include a variety of data about the deceased individual, including residential latitude and longitude and cause of death.
+The primary data used for the initial section of this manuscript are administrative records from the State of Washington. I begin by identifying all individuals who died between January 1 and November 3, 2020.\footnote{See \url{https://www.doh.wa.gov/DataandStatisticalReports/HealthStatistics/Death}.} These records include a variety of data about the deceased individual, including residential address and cause of death.
 
-We then find all registered voters who lived with someone who died during this period. The geocoded registered voter file comes from L2 Political, and includes a variety of characteristics such as age, party affiliation, gender, turnout history, as well as estimates of voters' race and ethnicity. Using the voter file we identify all voters who lived within 5 meters of an individual who died. Following White (\protect\hyperlink{ref-White2019a}{2019}), which similarly matched administrative records to the registered voter file, we exclude addresses at which more than 10 voters are registered. This avoids labeling all voters of apartment buildings or nursing homes as treated.
+I then identify all registered voters who lived with someone who died during this period. The geocoded registered voter file comes from L2 Political, and includes a variety of characteristics such as age, party affiliation, gender, turnout history, as well as estimates of voters' race and ethnicity. The validity of the racial characteristics in the L2 data are an important concern given this study's emphasis on racially-contingent treatment effects. L2 uses voters' first, middle, and last names, as well as their Census block demographics, to assign their predicted race. This approach is commonly used by political scientists to infer voters' race in the registered voter file (\protect\hyperlink{ref-Imai2016}{Imai and Khanna 2016}). While it likely leads to some inaccuracies at the individual-level, I assume that these errors lessen in importance when leveraging the full set of registered voters, and that any errors are effectively random and uncorrelated with exposure to COVID-19.
 
-We use a difference-in-differences-in-differences, or triple-differences, approach. We compare the turnout of individuals whose housemates had died from COVID-19 to housemates of voters who died for other reasons, and to the turnout of individuals who did not live with someone who died. There are real reasons to suspect that these three groups varied in important ways. We expect that older voters are more likely to live with an individual who died during the time period. One way to control for group-level differences is to use a variety of covariates in a traditional difference-in-differences framework, though that runs the risk of violating the parallel trends assumption. Here, we adopt a different approach: prior to implementing the difference-in-differences model we match voters using a genetic matching algorithm (Sekhon \protect\hyperlink{ref-Sekhon2011}{2011}), thereby ensuring that our treatment and control groups are substantially similar prior to the testing for treatment effects.
+I merge the death records to the registered voter file using recorded address. DISCUSS CLEANING PROCESS ONCE I HAVE THE DATA.
 
-In the case of the study at hand, we specifically use what we call a double-matched triple-differences framework. We begin by matching each treated voter (a registered voter who lived with someone who died from COVID-19) to a primary control voter (a registered voter who lived with someone who died from something other than COVID-19). We assume that the opportunity-cost effect of living with a loved one who died was the same for both groups. By testing for a turnout difference between these groups, we therefore measure the political threat effects unique to COVID-19.
+I compare the turnout of individuals whose housemates had died from COVID-19 to housemates of voters who died for other reasons, and to the turnout of individuals who did not live with someone who died---a difference-in-difference-in-differences, or triple-differences, approach. There are real reasons to suspect that these three groups varied in important ways. I expect that older voters are more likely to live with an individual who died during the time period, for instance, and we know that more racial minorities died from COVID-19. One way to control for group-level differences is to use a variety of covariates in a traditional difference-in-differences framework, though that runs the risk of violating the parallel trends assumption. Here, I adopt a different approach: prior to implementing the difference-in-differences model I match voters using a genetic matching algorithm (\protect\hyperlink{ref-Sekhon2011}{Sekhon 2011}), thereby ensuring that our treatment and control groups are substantially similar prior to the testing for treatment effects. For a fuller discussion of how matching can improve inference in difference-in-differences designs, see \protect\hyperlink{ref-Imai2020}{Imai, Kim, and Wang} (\protect\hyperlink{ref-Imai2020}{2020}).
 
-This simple set-up does not allow us to test the \emph{overall} effect of proximal contact with COVID-19. To find the net effect, we must also compare treated voters with voters who lived with no one who died (secondary control voters). Treated voters and primary control voters are each matched to a secondary control voter using the same characteristics as the initial match. We thus construct groups of four voters: the treated voter; the primary control voter; and two secondary control voters. Any difference between the primary control and secondary control voters' turnout will measure the opportunity cost effect of living with an individual who died. Any difference between the treated and primary control voters measures the political threat mobilization associated with deaths arising from COVID-19.
+In the case of the study at hand, I specifically use what I call a double-matched triple-differences framework. I begin by matching each treated voter (a registered voter who lived with someone who died from COVID-19) to a primary control voter (a registered voter who lived with someone who died from something other than COVID-19). I assume that the opportunity-cost effect of living with a loved one who died was the same for both groups. By testing for a turnout difference between these groups, I therefore measure the political threat effects unique to COVID-19.
 
-Given that Hobbs, Christakis, and Fowler (\protect\hyperlink{ref-Hobbs2014}{2014}) indicates that the timing of a family member's death relative to election day can impact turnout in different ways, we also explore whether the turnout effects vary based on when a death occurred. We expect the opportunity cost effects to decay more quickly than the political threat effects. In other words, we expect turnout among treated voters to be higher relative to primary and secondary control voters if their household member passed away earlier in the pandemic. Moreover, because of disparities in the nature of the pandemic (Oppel et al. \protect\hyperlink{ref-Oppel2020}{2020}) we expect the treatment effects to be moderated by race and ethnicity. We therefore interact the treatment variables with voters' racioethnic characteristics.
+This simple set-up does not allow us to test the \emph{overall} (or net) effect of proximal contact with COVID-19. To find the net effect, I must also compare treated voters with voters who lived with no one who died (secondary control voters). Treated voters and primary control voters are each matched to a secondary control voter using the same characteristics as the initial match. I thus construct groups of four voters: the treated voter; the primary control voter; and two secondary control voters. Any difference between the primary control and secondary control voters' turnout will measure the opportunity cost effect of living with an individual who died. Any difference between the treated and primary control voters measures the political threat mobilization associated with deaths arising from COVID-19.
 
-After constructing our treatment, primary control, and secondary control groups, we implement a difference-in-differences-in-differences model at the individual-level, incorporating each individual's turnout history. These are estimated using an ordinary least squares regression. Robust standard errors are clustered at the level of the match (Abadie and Spiess \protect\hyperlink{ref-Abadie2019}{2019}).
+After constructing the treatment, primary control, and secondary control groups, I implement a difference-in-differences-in-differences model at the individual-level, incorporating each individual's turnout history. These are estimated using an ordinary least squares regression. Robust standard errors are clustered at the level of the match (\protect\hyperlink{ref-Abadie2020}{Abadie and Spiess 2020}). This model estimates the following equation:
 
-\hypertarget{perception-and-mobilization}{%
-\subsubsection*{Perception and Mobilization}\label{perception-and-mobilization}}
-\addcontentsline{toc}{subsubsection}{Perception and Mobilization}
+\begin{gather}
+\label{eq:1}
+v_{it} = \beta_0 + \beta_1Housemate Died_{i}+\beta_22020_{t} + \beta_3Housemate Died_{i}\times 2020_{t} \nonumber \\
+\beta_4Housemate Died from COVID_{i} + \beta_5Housemate Died from COVID_{i}\times 2020_{t} + \\
+\delta{Y}_{i} + \delta{Z}_{i} + \mathcal{E}_{it}. \nonumber
+\end{gather}
 
-Of course, using administrative records does not allow us to directly test what we theorize to be the causal mechanism at work: namely, that voters are mobilized when they think the government failed to adequately respond to the pandemic. To test this relationship, we leverage survey data from the American National Election Studies (ANES). The ANES is administered surveyed after each federal election (with a pre-election wave in presidential election years) and asks individuals around the country a host of questions about their political beliefs.
+Individual \emph{i}'s turnout (\emph{v}) in year \emph{t} is a function of the year and whether or how their housemate died. In the equation, \emph{\(\beta\)\textsubscript{1}Housemate Died\textsubscript{i}} measures the historical difference between voters whose housemates died in 2020 and voters for whom this did not happen. \emph{\(\beta\)\textsubscript{2}2020\textsubscript{t}} measures the statewide change in turnout in 2020 from the baseline, while \emph{\(\beta\)\textsubscript{3}Housemate Died\textsubscript{i} × 2020\textsubscript{t}} tests whether 2020 turnout changed differently for voters whose housemate died in 2020 than for those who lived with no one who died. \emph{\(\beta\)\textsubscript{3}Housemate Died\textsubscript{i} × 2020\textsubscript{t}}, therefore, the estimated effect of living with someone who died, but not with someone who died from COVID. \emph{\(\beta\)\textsubscript{4}Housemate Died from COVID\textsubscript{i}} measures the historical difference between treated and primary control voters, and \emph{\(\beta\)\textsubscript{5}Housemate Died from COVID\textsubscript{i} × 2020\textsubscript{t}} tests whether the causal effect of living with someone who died was different for treated voters than for their primary controls. This, then, is the estimated effect of proximity to a COVID death after accounting for any demobilizing effect of a death in general. The matrix \emph{\(\delta\)Y\textsubscript{i}} is included in some models, and interacts voters' race / ethnicity with the aforementioned variables to investigate whether there are race-specific treatment effects. The matrix \emph{\(\delta\)Z\textsubscript{i}} includes the covariates used in the matching procedure, included in some of the models.
 
-In 2020, the ANES asked individuals about their beliefs about the novel coronavirus. Specifically, the survey asks ``Do you approve, disapprove, or neither approve nor disapprove of the way Donald Trump is handling the coronavirus (COVID-19) outbreak?'' Respondents use a 7-point scale, ranging from 1 (``Approve extremely strongly'') to 7 (``Disapprove extremely strongly''). This question allows us to test how strongly respondent's link their experience of the pandemic to the federal government's political response.
+This model allows me to test my first set of hypotheses:
 
-Unfortunately, the survey does not ask whether respondents lived with someone who had died from the disease, so we cannot directly test the relationship explored in the first analysis. The survey does, however, ask respondents ``How worried are you personally about getting the coronavirus (COVID-19)?'' Responses vary from 1 (``Extremely worried'') to 5 (``Not at all worried''). This allows us to measure the extent to which individuals feel a sense of threat.
+\emph{H1:} Turnout for voters who lived with an individual who died from a non-COVID cause turned out at lower rates than voters who lived with no one who died.
 
-If an individual is worried about contracting COVID-19 but does not link that fear to the government's response, she may not be mobilized by the pandemic. She might have lowered levels of efficacy because she feels that her safety is out of her control, or face high opportunity costs to vote. This may not be the case, however, if she links her fear of contracting the virus to the political response to the pandemic. We theorize that voters for whom the pandemic is a high-salience event and who link the pandemic to the federal response will be mobilized to participate.
+\emph{H2:} Turnout for voters who lived with someone who died from COVID turned out at higher rates than voters who lived with individuals who died from other causes. Because of the availability of the racial injustice narrative, this was especially true for non-white voters who lived with someone who died from COVID.
 
-To test this relationship, we run an ordinary least squares in which we interact voters' responses to the two questions discussed above. Our dependent variable measures participation in the 2020 general election. We hypothesize that high levels of fear will be associated with lower turnout. We also expect that voters with high levels of fear and strong opinions about the federal government's response reported voting at higher rates than high-fear voters will weaker opinions. Our regressions also control for other covariates known to be associated with voter turnout.
+Additionally, the data from the Department of Health allows me to test the timing of a house- hold death. Accordingly, I also investigate whether a household death occurring shortly be- fore the election structured turnout differently than deaths occurring earlier in the pandemic. I expect that deaths closer to the election will impose substantially higher opportunity costs, thus lowering turnout more. At the same time, the salience of the political nature of a death from COVID might be stronger shortly before the election. Formally put:
+
+\emph{H3:} The \emph{negative} treatment effect of living with someone who died from a non-COVID cause was larger if the death occurred shortly before or after the election. The \emph{positive} treatment effect of living with someone who died from COVID (relative to voters who lived
+with individuals who died from other causes) was also larger if the death occurred near the election.
+
+\hypertarget{national-survey-data}{%
+\subsection*{National Survey Data}\label{national-survey-data}}
+\addcontentsline{toc}{subsection}{National Survey Data}
+
+The use of the individual-level records from Washington State gives us precise insight into the behavior of individuals who lived with residents who died from COVID. The use of administrative data sidesteps many of the issues associated with survey data such as small sample sizes or social desirability biases (e.g. \protect\hyperlink{ref-Sciarini2016}{Sciarini and Goldberg 2016}). These administrative data, however, have some drawbacks. They are only available in Washington State, for instance. Furthermore, they do not allow us to test how individual attitudes and dispositions shape voters' decision to participate.
+
+To get a fuller picture of how COVID-19 may have shaped voters' sense of threat and turnout, I turn to national survey data. I make use of the Cooperative Election Study (CES, formerly known at the Congressional Cooperative Election Study). The CES has been widely used in recent years in political science, thanks in part to its massive sample size. In 2020, 61,000 individuals were included in the survey. It is weighted to be representative of American adults, and asks a variety of questions about political engagement and personal identities.
+
+The CES asks respondents whether they knew anyone \emph{diagnosed} or who \emph{died from} COVID. I test the impact of both types of contact. The CES does not ask explicitly about linked fate, but it does pose nonwhite respondents a series of 5 statements about race in the United States (such as, \emph{Whites do not go to great lengths to understand the problems African Americans face}) and asks respondents how strongly they agree with them. These statements can be found in the Supplementary Information. For each of the 5 questions I recode answers so that they fall along a spectrum, where low answers indicate the respondent does not think race and racism are problems, and high answers indicate that respondents think race is a major issue. I add respondents' answers to these questions, and the overall score thus ranges from 5 (if the respondent marked 1 on each question) to 25 (if they marked 5 on each question). The results do not change if I alternatively create a single index out of these responses. This ``racial affinity'' is used to measure linked fate.
+
+The CES is used to corroborate what I find at the individual-level in the first section and to test the impact of linked fate. Specifically, I test hypotheses 4 and 5:
+
+\emph{H4:} Respondents who knew someone who was diagnosed with or died from COVID-19 reported voting at higher rates. This was especially true for non-White respondents.
+
+\emph{H5:} Among nonwhite respondents, COVID-19 contact was especially linked with higher turnout for respondents with high levels of linked fate. COVID-19 was less associated with turnout for nonwhite respondents with low levels of linked fate.
+
+\hypertarget{results}{%
+\section*{Results}\label{results}}
+\addcontentsline{toc}{section}{Results}
 
 \newpage
 
@@ -181,123 +257,175 @@ To test this relationship, we run an ordinary least squares in which we interact
 \addcontentsline{toc}{subsection}{References}
 
 \hypertarget{refs}{}
-\begin{cslreferences}
-\leavevmode\hypertarget{ref-Abadie2019}{}%
-Abadie, Alberto, and Jann Spiess. 2019. ``Robust Post-Matching Inference.'' \emph{Working Paper.}
+\begin{CSLReferences}{1}{0}
+\leavevmode\hypertarget{ref-Abadie2020}{}%
+Abadie, Alberto, and Jann Spiess. 2020. {``Robust {Post}-{Matching Inference}.''} \emph{Journal of the American Statistical Association} 0 (0): 1--13. \url{https://doi.org/10.1080/01621459.2020.1840383}.
+
+\leavevmode\hypertarget{ref-Blount2020}{}%
+Blount, Linda Goler. 2020. {``Fighting {Injustice} in {Health Care} for {Black Women} and {Diverse Rare Disease Patients}.''} \emph{Ebony}, July 29, 2020. \url{https://www.ebony.com/health/fighting-injustice-in-health-care-for-black-women-and-diverse-rare-disease-patients/}.
 
 \leavevmode\hypertarget{ref-Blow2020}{}%
-Blow, Charles M. 2020. ``Can We Call Trump a Killer?'' \emph{The New York Times: Opinion}, June 24, 2020. \url{https://www.nytimes.com/2020/06/24/opinion/trump-coronavirus-deaths.html}.
+Blow, Charles M. 2020. {``Can {We Call Trump} a {Killer}?''} \emph{The New York Times: Opinion}, June 24, 2020. \url{https://www.nytimes.com/2020/06/24/opinion/trump-coronavirus-deaths.html}.
 
 \leavevmode\hypertarget{ref-Calia2020}{}%
-Calia, Mike. 2020. ``Full Interview: President Trump Discusses Trade, Impeachment, Boeing and Elon Musk with CNBC in Davos.'' \emph{CNBC: Davos WEF}, January 22, 2020. \url{https://www.cnbc.com/2020/01/22/davos-2020-cnbcs-full-interview-with-president-trump.html}.
+Calia, Mike. 2020. {``Full Interview: {President Trump} Discusses Trade, Impeachment, {Boeing} and {Elon Musk} with {CNBC} in {Davos}.''} \emph{CNBC: Davos WEF}, January 22, 2020. \url{https://www.cnbc.com/2020/01/22/davos-2020-cnbcs-full-interview-with-president-trump.html}.
 
-\leavevmode\hypertarget{ref-Campbell2003}{}%
-Campbell, Andrea Louise. 2003. ``Participatory Reactions to Policy Threats: Senior Citizens and the Defense of Social Security and Medicare.'' \emph{Political Behavior} 25 (1): 29--49. \url{https://doi.org/10.1023/A:1022900327448}.
+\leavevmode\hypertarget{ref-Campbell2003a}{}%
+Campbell, Andrea Louise. 2003. {``Participatory {Reactions} to {Policy Threats}: {Senior Citizens} and the {Defense} of {Social Security} and {Medicare}.''} \emph{Political Behavior} 25 (1): 29--49. \url{https://doi.org/10.1023/A:1022900327448}.
 
-\leavevmode\hypertarget{ref-Cho2006a}{}%
-Cho, Wendy K. Tam, James G. Gimpel, and Tony Wu. 2006. ``Clarifying the Role of SES in Political Participation: Policy Threat and Arab American Mobilization.'' \emph{Journal of Politics} 68 (4): 977--91. \url{https://doi.org/10.1111/j.1468-2508.2006.00482.x}.
+\leavevmode\hypertarget{ref-cdc2021}{}%
+{``Cases, {Data}, and {Surveillance}.''} 2021. {Centers for Disease Control and Prevention}. April 23, 2021. \url{https://www.cdc.gov/coronavirus/2019-ncov/covid-data/investigations-discovery/hospitalization-death-by-race-ethnicity.html}.
+
+\leavevmode\hypertarget{ref-Dawson1995}{}%
+Dawson, Michael C. 1995. \emph{Behind the Mule: Race and Class in {African}-{American} Politics}. 1st pbk printing. {Princeton, NJ}: {Princeton Univ. Press}.
 
 \leavevmode\hypertarget{ref-Douglas2020}{}%
-Douglas, Jason. 2020. ``As Coronavirus Surges in U.S., Some Countries Have Just About Halted It.'' \emph{Wall Street Journal: World}, July 6, 2020. \url{https://www.wsj.com/articles/as-coronavirus-surges-in-u-s-some-countries-have-just-about-halted-it-11594037814}.
+Douglas, Jason. 2020. {``As {Coronavirus Surges} in {U}.{S}., {Some Countries Have Just About Halted It}.''} \emph{Wall Street Journal: World}, July 6, 2020. \url{https://www.wsj.com/articles/as-coronavirus-surges-in-u-s-some-countries-have-just-about-halted-it-11594037814}.
+
+\leavevmode\hypertarget{ref-Egede2020}{}%
+Egede, Leonard E., and Rebekah J. Walker. 2020. {``Structural {Racism}, {Social Risk Factors}, and {Covid}-19 --- {A Dangerous Convergence} for {Black Americans}.''} \emph{New England Journal of Medicine} 383 (12): e77. \url{https://doi.org/10.1056/NEJMp2023616}.
 
 \leavevmode\hypertarget{ref-Emmenegger2015}{}%
-Emmenegger, Patrick, Paul Marx, and Dominik Schraff. 2015. ``Labour Market Disadvantage, Political Orientations and Voting: How Adverse Labour Market Experiences Translate into Electoral Behaviour.'' \emph{Socio-Economic Review} 13 (2): 189--213. \url{https://doi.org/10.1093/ser/mwv003}.
+Emmenegger, Patrick, Paul Marx, and Dominik Schraff. 2015. {``Labour Market Disadvantage, Political Orientations and Voting: How Adverse Labour Market Experiences Translate into Electoral Behaviour.''} \emph{Socio-Economic Review} 13 (2): 189--213. \url{https://doi.org/10.1093/ser/mwv003}.
 
 \leavevmode\hypertarget{ref-Fan2004}{}%
-Fan, Jessie X., and Cathleen D. Zick. 2004. ``The Economic Burden of Health Care, Funeral, and Burial Expenditures at the End of Life.'' \emph{Journal of Consumer Affairs} 38 (1): 35--55. \url{https://doi.org/10.1111/j.1745-6606.2004.tb00464.x}.
+Fan, Jessie X., and Cathleen D. Zick. 2004. {``The {Economic Burden} of {Health Care}, {Funeral}, and {Burial Expenditures} at the {End} of {Life}.''} \emph{Journal of Consumer Affairs} 38 (1): 35--55. \url{https://doi.org/10.1111/j.1745-6606.2004.tb00464.x}.
 
 \leavevmode\hypertarget{ref-Fitzpatrick2020}{}%
-Fitzpatrick, Alex. 2020. ``Why the U.S. Is Losing the War on COVID-19.'' \emph{Time}, August 13, 2020. \url{https://time.com/5879086/us-covid-19/}.
+Fitzpatrick, Alex. 2020. {``Why the {U}.{S}. {Is Losing} the {War On COVID}-19.''} \emph{Time}, August 13, 2020. \url{https://time.com/5879086/us-covid-19/}.
 
 \leavevmode\hypertarget{ref-Frum2020}{}%
-Frum, David. 2020. ``This Is Trump's Plague Now.'' The Atlantic. June 29, 2020. \url{https://www.theatlantic.com/ideas/archive/2020/06/this-is-trumps-plague-now/613633/}.
+Frum, David. 2020. {``This {Is Trump}'s {Plague Now}.''} {The Atlantic}. June 29, 2020. \url{https://www.theatlantic.com/ideas/archive/2020/06/this-is-trumps-plague-now/613633/}.
+
+\leavevmode\hypertarget{ref-Garg2020}{}%
+Garg, Shikha, Lindsay Kim, Michael Whitaker, Alissa O'Halloran, Charisse Cummings, Rachel Holstein, Mila Prill, et al. 2020. {``Hospitalization {Rates} and {Characteristics} of {Patients Hospitalized} with {Laboratory}-{Confirmed Coronavirus Disease} 2019 --- {COVID}-{NET}, 14 {States}, {March} 1--30, 2020.''} \emph{MMWR. Morbidity and Mortality Weekly Report} 69 (15): 458--64. \url{https://doi.org/10.15585/mmwr.mm6915e3}.
 
 \leavevmode\hypertarget{ref-Golden2020}{}%
-Golden, Hallie. 2020. ``Coronavirus: Washington State at Center of US Outbreak as 18 Cases Confirmed.'' \emph{The Guardian: World News}, March 3, 2020. \url{https://www.theguardian.com/world/2020/mar/02/washington-state-coronavirus-outbreak-nursing-home}.
-
-\leavevmode\hypertarget{ref-Gutierrez2019}{}%
-Gutierrez, Angela, Angela X. Ocampo, Matt A. Barreto, and Gary Segura. 2019. ``Somos Más: How Racial Threat and Anger Mobilized Latino Voters in the Trump Era.'' \emph{Political Research Quarterly} 72 (4): 960--75. \url{https://doi.org/10.1177/1065912919844327}.
+Golden, Hallie. 2020. {``Coronavirus: {Washington} State at Center of {US} Outbreak as 18 Cases Confirmed.''} \emph{The Guardian: World News}, March 3, 2020. \url{https://www.theguardian.com/world/2020/mar/02/washington-state-coronavirus-outbreak-nursing-home}.
 
 \leavevmode\hypertarget{ref-Hassell2017}{}%
-Hassell, Hans J. G., and Jaime E. Settle. 2017. ``The Differential Effects of Stress on Voter Turnout.'' \emph{Political Psychology} 38 (3): 533--50. \url{https://doi.org/10.1111/pops.12344}.
+Hassell, Hans J. G., and Jaime E. Settle. 2017. {``The {Differential Effects} of {Stress} on {Voter Turnout}.''} \emph{Political Psychology} 38 (3): 533--50. \url{https://doi.org/10.1111/pops.12344}.
 
 \leavevmode\hypertarget{ref-Hobbs2014}{}%
-Hobbs, William R., Nicholas A. Christakis, and James H. Fowler. 2014. ``Widowhood Effects in Voter Participation.'' \emph{American Journal of Political Science} 58 (1): 1--16. \url{https://doi.org/10.1111/ajps.12040}.
+Hobbs, William R., Nicholas A. Christakis, and James H. Fowler. 2014. {``Widowhood {Effects} in {Voter Participation}.''} \emph{American Journal of Political Science} 58 (1): 1--16. \url{https://doi.org/10.1111/ajps.12040}.
+
+\leavevmode\hypertarget{ref-HoSang2010}{}%
+HoSang, Daniel. 2010. \emph{Racial Propositions: Ballot {Initiatives} and the Making of Postwar {California}}. American Crossroads 30. {Berkeley}: {University of California Press}.
+
+\leavevmode\hypertarget{ref-Imai2016}{}%
+Imai, Kosuke, and Kabir Khanna. 2016. {``Improving {Ecological Inference} by {Predicting Individual Ethnicity} from {Voter Registration Records}.''} \emph{Political Analysis} 24 (2): 263--72. \url{https://doi.org/10.1093/pan/mpw001}.
+
+\leavevmode\hypertarget{ref-Imai2020}{}%
+Imai, Kosuke, In Song Kim, and Erik Wang. 2020. {``Matching {Methods} for {Causal Inference} with {Time}-{Series Cross}-{Sectional Data}.''} \emph{Working Paper}. \url{https://doi.org/Matching\%20Methods\%20for\%20Causal\%20Inference\%20with\%20Time-Series\%20Cross-Sectional\%20Data}.
+
+\leavevmode\hypertarget{ref-Johnson-Agbakwu2020}{}%
+Johnson-Agbakwu, Crista E., Nyima S. Ali, Corrina M. Oxford, Shana Wingo, Emily Manin, and Dean V. Coonrod. 2020. {``Racism, {COVID}-19, and {Health Inequity} in the {USA}: A {Call} to {Action}.''} \emph{Journal of Racial and Ethnic Health Disparities}, November, 1--7. \url{https://doi.org/10.1007/s40615-020-00928-y}.
+
+\leavevmode\hypertarget{ref-Karaca-Mandic2021}{}%
+Karaca-Mandic, Pinar, Archelle Georgiou, and Soumya Sen. 2021. {``Assessment of {COVID}-19 {Hospitalizations} by {Race}/{Ethnicity} in 12 {States}.''} \emph{JAMA Internal Medicine} 181 (1): 131--34. \url{https://doi.org/10.1001/jamainternmed.2020.3857}.
+
+\leavevmode\hypertarget{ref-Kolata2020}{}%
+Kolata, Gina. 2020. {``Social {Inequities Explain Racial Gaps} in {Pandemic}, {Studies Find}.''} \emph{The New York Times: Health}, December 9, 2020. \url{https://www.nytimes.com/2020/12/09/health/coronavirus-black-hispanic.html}.
 
 \leavevmode\hypertarget{ref-Lerman2014}{}%
-Lerman, Amy E., and Vesla M. Weaver. 2014. \emph{Arresting Citizenship: The Democratic Consequences of American Crime Control}. Chicago Studies in American Politics. Chicago ; London: The University of Chicago Press.
+Lerman, Amy E., and Vesla M. Weaver. 2014. \emph{Arresting Citizenship: The Democratic Consequences of {American} Crime Control}. Chicago Studies in {American} Politics. {Chicago}: {The University of Chicago Press}.
 
 \leavevmode\hypertarget{ref-Lu2020}{}%
-Lu, Denise. 2020. ``The True Coronavirus Toll in the U.S. Has Already Surpassed 200,000.'' \emph{The New York Times: U.S.}, August 13, 2020. \url{https://www.nytimes.com/interactive/2020/08/12/us/covid-deaths-us.html}.
+Lu, Denise. 2020. {``The {True Coronavirus Toll} in the {U}.{S}. {Has Already Surpassed} 200,000.''} \emph{The New York Times: U.S.}, August 13, 2020. \url{https://www.nytimes.com/interactive/2020/08/12/us/covid-deaths-us.html}.
 
 \leavevmode\hypertarget{ref-Margalit2019}{}%
-Margalit, Yotam. 2019. ``Political Responses to Economic Shocks.'' \emph{Annual Review of Political Science} 22 (1): 277--95. \url{https://doi.org/10.1146/annurev-polisci-050517-110713}.
+Margalit, Yotam. 2019. {``Political {Responses} to {Economic Shocks}.''} \emph{Annual Review of Political Science} 22 (1): 277--95. \url{https://doi.org/10.1146/annurev-polisci-050517-110713}.
 
 \leavevmode\hypertarget{ref-Marx2016}{}%
-Marx, Paul, and Christoph Nguyen. 2016. ``Are the Unemployed Less Politically Involved? A Comparative Study of Internal Political Efficacy.'' \emph{European Sociological Review} 32 (5): 634--48. \url{https://doi.org/10.1093/esr/jcw020}.
+Marx, Paul, and Christoph Nguyen. 2016. {``Are the {Unemployed Less Politically Involved}? {A Comparative Study} of {Internal Political Efficacy}.''} \emph{European Sociological Review} 32 (5): 634--48. \url{https://doi.org/10.1093/esr/jcw020}.
 
 \leavevmode\hypertarget{ref-McNerthney2020}{}%
-McNerthney, Casey. 2020. ``Coronavirus in Washington State: A Timeline of the Outbreak Through March 2020.'' \emph{KIRO}, April 3, 2020. \url{https://www.kiro7.com/news/local/coronavirus-washington-state-timeline-outbreak/IM65JK66N5BYTIAPZ3FUZSKMUE/}.
+McNerthney, Casey. 2020. {``Coronavirus in {Washington} State: {A} Timeline of the Outbreak Through {March} 2020.''} \emph{KIRO}, April 3, 2020. \url{https://www.kiro7.com/news/local/coronavirus-washington-state-timeline-outbreak/IM65JK66N5BYTIAPZ3FUZSKMUE/}.
 
 \leavevmode\hypertarget{ref-Moon2020}{}%
-Moon, Sarah. 2020. ``A Seemingly Healthy Woman's Sudden Death Is Now the First Known US Coronavirus-Related Fatality.'' \emph{CNN}, April 24, 2020. \url{https://www.cnn.com/2020/04/23/us/california-woman-first-coronavirus-death/index.html}.
+Moon, Sarah. 2020. {``A Seemingly Healthy Woman's Sudden Death Is Now the First Known {US} Coronavirus-Related Fatality.''} \emph{CNN}, April 24, 2020. \url{https://www.cnn.com/2020/04/23/us/california-woman-first-coronavirus-death/index.html}.
 
 \leavevmode\hypertarget{ref-Mystal2020}{}%
-Mystal, Elie. 2020. ``The Deaths of 150,000 Americans Are on Trump's Hands,'' August 3, 2020. \url{https://www.thenation.com/article/society/coronavirus-trump-crimes/}.
+Mystal, Elie. 2020. {``The {Deaths} of 150,000 {Americans Are} on {Trump}'s {Hands},''} August 3, 2020. \url{https://www.thenation.com/article/society/coronavirus-trump-crimes/}.
 
 \leavevmode\hypertarget{ref-nyt2020}{}%
-\emph{New York Times: U.S.} 2020. ``Covid in the U.S.: Latest Map and Case Count,'' July 20, 2020. \url{https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html}.
+\emph{New York Times: U.S.} 2020. {``Covid in the {U}.{S}.: {Latest Map} and {Case Count},''} November 3, 2020. \url{https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html}.
 
-\leavevmode\hypertarget{ref-Oppel2020}{}%
-Oppel, Richard A., Jr., Robert Gebeloff, K. K. Rebecca Lai, Will Wright, and Mitch Smith. 2020. ``The Fullest Look yet at the Racial Inequity of Coronavirus.'' \emph{The New York Times: U.S.}, July 5, 2020. \url{https://www.nytimes.com/interactive/2020/07/05/us/coronavirus-latinos-african-americans-cdc-data.html}.
+\leavevmode\hypertarget{ref-Nichols2020a}{}%
+Nichols, Vanessa Cruz, and Ramón Garibaldo Valdéz. 2020. {``How to {Sound} the {Alarms}: {Untangling Racialized Threat} in {Latinx Mobilization}.''} \emph{PS: Political Science \& Politics} 53 (4): 690--96. \url{https://doi.org/10.1017/S1049096520000530}.
+
+\leavevmode\hypertarget{ref-Niemi1991}{}%
+Niemi, Richard G., Stephen C. Craig, and Franco Mattei. 1991. {``Measuring {Internal Political Efficacy} in the 1988 {National Election Study}.''} \emph{The American Political Science Review} 85 (4): 1407--13. \url{https://doi.org/10.2307/1963953}.
 
 \leavevmode\hypertarget{ref-Pacheco2015}{}%
-Pacheco, Julianna, and Jason Fletcher. 2015. ``Incorporating Health into Studies of Political Behavior: Evidence for Turnout and Partisanship.'' \emph{Political Research Quarterly} 68 (1): 104--16. \url{https://doi.org/10.1177/1065912914563548}.
+Pacheco, Julianna, and Jason Fletcher. 2015. {``Incorporating {Health} into {Studies} of {Political Behavior}: {Evidence} for {Turnout} and {Partisanship}.''} \emph{Political Research Quarterly} 68 (1): 104--16. \url{https://doi.org/10.1177/1065912914563548}.
+
+\leavevmode\hypertarget{ref-Perez2015}{}%
+Pérez, Efrén O. 2015. {``Xenophobic {Rhetoric} and {Its Political Effects} on {Immigrants} and {Their Co}-{Ethnics}.''} \emph{American Journal of Political Science} 59 (3): 549--64. \url{http://www.jstor.org/stable/24583082}.
 
 \leavevmode\hypertarget{ref-Piven1979}{}%
-Piven, Frances Fox, and Richard A. Cloward. 1979. \emph{Poor People's Movements: Why They Succeed, How They Fail}. New York: Vintage books.
+Piven, Frances Fox, and Richard A. Cloward. 1979. \emph{Poor People's Movements: Why They Succeed, How They Fail}. {New York}: {Vintage books}.
 
 \leavevmode\hypertarget{ref-whitehouse2020}{}%
-``Remarks by President Trump at a USMCA Celebration with American Workers \textbar{} Warren, MI.'' 2020. The White House. January 30, 2020. \url{https://www.whitehouse.gov/briefings-statements/remarks-president-trump-usmca-celebration-american-workers-warren-mi/}.
+{``Remarks by {President Trump} at a {USMCA Celebration} with {American Workers}.''} 2020. {The White House}. January 30, 2020. \url{https://www.whitehouse.gov/briefings-statements/remarks-president-trump-usmca-celebration-american-workers-warren-mi/}.
+
+\leavevmode\hypertarget{ref-Robinson2020}{}%
+Robinson, Ishena. 2020. {``{CDC}'s {New Numbers Show Black Americans} and {Other People} of {Color Dying} at {Higher Rates From COVID}-19 {Than It Previously Reported}.''} \emph{The Root}, December 5, 2020. \url{https://www.theroot.com/cdc-acknowledges-black-and-latino-americans-dying-at-hi-1845816843}.
 
 \leavevmode\hypertarget{ref-Rosenstone1982}{}%
-Rosenstone, Steven J. 1982. ``Economic Adversity and Voter Turnout.'' \emph{American Journal of Political Science} 26 (1): 25--46. \url{https://doi.org/10.2307/2110837}.
+Rosenstone, Steven J. 1982. {``Economic {Adversity} and {Voter Turnout}.''} \emph{American Journal of Political Science} 26 (1): 25--46. \url{https://doi.org/10.2307/2110837}.
 
 \leavevmode\hypertarget{ref-Rudolph2000}{}%
-Rudolph, Thomas J., Amy Gangl, and Dan Stevens. 2000. ``The Effects of Efficacy and Emotions on Campaign Involvement.'' \emph{The Journal of Politics} 62 (4): 1189--97. \url{https://doi.org/10.1111/0022-3816.00053}.
+Rudolph, Thomas J., Amy Gangl, and Dan Stevens. 2000. {``The {Effects} of {Efficacy} and {Emotions} on {Campaign Involvement}.''} \emph{The Journal of Politics} 62 (4): 1189--97. \url{https://doi.org/10.1111/0022-3816.00053}.
 
 \leavevmode\hypertarget{ref-Saletan2020}{}%
-Saletan, William. 2020. ``How Trump Killed Tens of Thousands of Americans.'' Slate Magazine. August 9, 2020. \url{https://slate.com/news-and-politics/2020/08/trump-coronavirus-deaths-timeline.html}.
+Saletan, William. 2020. {``How {Trump Killed Tens} of {Thousands} of {Americans}.''} {Slate Magazine}. August 9, 2020. \url{https://slate.com/news-and-politics/2020/08/trump-coronavirus-deaths-timeline.html}.
 
 \leavevmode\hypertarget{ref-Sandell2005}{}%
-Sandell, Julianna, and Eric Plutzer. 2005. ``Families, Divorce and Voter Turnout in the US.'' \emph{Political Behavior} 27 (2): 133--62. \url{https://doi.org/10.1007/s11109-005-3341-9}.
+Sandell, Julianna, and Eric Plutzer. 2005. {``Families, Divorce and Voter Turnout in the {US}.''} \emph{Political Behavior} 27 (2): 133--62. \url{https://doi.org/10.1007/s11109-005-3341-9}.
 
 \leavevmode\hypertarget{ref-Schlozman1979}{}%
-Schlozman, Kay Kehman, and Sidney Verba. 1979. \emph{Injury to Insult: Unemployment, Class, and Political Response}. Harvard University Press. \url{http://books.google.com?id=m6XTdRlx3Q8C}.
+Schlozman, Kay Kehman, and Sidney Verba. 1979. \emph{Injury to {Insult}: {Unemployment}, {Class}, and {Political Response}}. {Harvard University Press}. \url{http://books.google.com?id=m6XTdRlx3Q8C}.
+
+\leavevmode\hypertarget{ref-Sciarini2016}{}%
+Sciarini, Pascal, and Andreas C. Goldberg. 2016. {``Turnout {Bias} in {Postelection Surveys}: {Political Involvement}, {Survey Participation}, and {Vote Overreporting}.''} \emph{Journal of Survey Statistics and Methodology} 4 (1): 110--37. \url{https://doi.org/10.1093/jssam/smv039}.
 
 \leavevmode\hypertarget{ref-Sekhon2011}{}%
-Sekhon, Jasjeet S. 2011. ``Multivariate and Propensity Score Matching Software with Automated Balance Optimization: The Matching Package for R.'' \emph{Journal of Statistical Software} 42 (1): 1--52. \url{https://doi.org/10.18637/jss.v042.i07}.
+Sekhon, Jasjeet S. 2011. {``Multivariate and {Propensity Score Matching Software} with {Automated Balance Optimization}: {The Matching} Package for {R}.''} \emph{Journal of Statistical Software} 42 (7): 1--52. \url{https://doi.org/10.18637/jss.v042.i07}.
 
 \leavevmode\hypertarget{ref-Shear2020}{}%
-Shear, Michael D., Noah Weiland, Eric Lipton, Maggie Haberman, and David E. Sanger. 2020. ``Inside Trump's Failure: The Rush to Abandon Leadership Role on the Virus.'' \emph{The New York Times: U.S.}, July 18, 2020. \url{https://www.nytimes.com/2020/07/18/us/politics/trump-coronavirus-response-failure-leadership.html}.
+Shear, Michael D., Noah Weiland, Eric Lipton, Maggie Haberman, and David E. Sanger. 2020. {``Inside {Trump}'s {Failure}: {The Rush} to {Abandon Leadership Role} on the {Virus}.''} \emph{The New York Times: U.S.}, July 18, 2020. \url{https://www.nytimes.com/2020/07/18/us/politics/trump-coronavirus-response-failure-leadership.html}.
+
+\leavevmode\hypertarget{ref-TamCho2006a}{}%
+Tam Cho, Wendy K., James G. Gimpel, and Tony Wu. 2006. {``Clarifying the {Role} of {SES} in {Political Participation}: {Policy Threat} and {Arab American Mobilization}.''} \emph{Journal of Politics} 68 (4): 977--91. \url{https://doi.org/10.1111/j.1468-2508.2006.00482.x}.
+
+\leavevmode\hypertarget{ref-Tarrow1998}{}%
+Tarrow, Sidney G. 1998. \emph{Power in Movement: Social Movements and Contentious Politics}. 2nd ed. Cambridge Studies in Comparative Politics. {Cambridge {[}England{]} ; New York}: {Cambridge University Press}.
+
+\leavevmode\hypertarget{ref-Towler2018}{}%
+Towler, Christopher C., and Christopher S. Parker. 2018. {``Between {Anger} and {Engagement}: {Donald Trump} and {Black America}.''} \emph{Journal of Race, Ethnicity, and Politics} 3 (1): 219--53. \url{https://doi.org/10.1017/rep.2017.38}.
+
+\leavevmode\hypertarget{ref-Valenzuela2016}{}%
+Valenzuela, Ali A., and Melissa R. Michelson. 2016. {``Turnout, {Status}, and {Identity}: {Mobilizing Latinos} to {Vote} with {Group Appeals}.''} \emph{American Political Science Review} 110 (4): 615--30. \url{https://doi.org/10.1017/S000305541600040X}.
 
 \leavevmode\hypertarget{ref-Walker2020}{}%
-Walker, Hannah L. 2020. ``Targeted: The Mobilizing Effect of Perceptions of Unfair Policing Practices.'' \emph{The Journal of Politics} 82 (1): 119--34. \url{https://doi.org/10.1086/705684}.
+Walker, Hannah L. 2020. {``Targeted: {The Mobilizing Effect} of {Perceptions} of {Unfair Policing Practices}.''} \emph{The Journal of Politics} 82 (1): 119--34. \url{https://doi.org/10.1086/705684}.
 
 \leavevmode\hypertarget{ref-Wan2020}{}%
-Wan, William. 2020. ``WHO Declares a Pandemic of Coronavirus Disease Covid-19.'' \emph{Washington Post}, March 11, 2020. \url{https://www.washingtonpost.com/health/2020/03/11/who-declares-pandemic-coronavirus-disease-covid-19/}.
+Wan, William. 2020. {``{WHO} Declares a Pandemic of Coronavirus Disease Covid-19.''} \emph{Washington Post}, March 11, 2020. \url{https://www.washingtonpost.com/health/2020/03/11/who-declares-pandemic-coronavirus-disease-covid-19/}.
 
 \leavevmode\hypertarget{ref-Weaver2010}{}%
-Weaver, Vesla M., and Amy E. Lerman. 2010. ``Political Consequences of the Carceral State.'' \emph{American Political Science Review} 104 (4): 817--33. \url{https://doi.org/10.1017/S0003055410000456}.
-
-\leavevmode\hypertarget{ref-White2019a}{}%
-White, Ariel. 2019. ``Family Matters? Voting Behavior in Households with Criminal Justice Contact.'' \emph{American Political Science Review} 113 (2): 607--13. \url{https://doi.org/10.1017/S0003055418000862}.
+Weaver, Vesla M., and Amy E. Lerman. 2010. {``Political {Consequences} of the {Carceral State}.''} \emph{American Political Science Review} 104 (4): 817--33. \url{https://doi.org/10.1017/S0003055410000456}.
 
 \leavevmode\hypertarget{ref-White2016}{}%
----------. 2016. ``When Threat Mobilizes: Immigration Enforcement and Latino Voter Turnout.'' \emph{Political Behavior} 38 (2): 355--82. \url{https://doi.org/10.1007/s11109-015-9317-5}.
+White, Ariel. 2016. {``When {Threat Mobilizes}: {Immigration Enforcement} and {Latino Voter Turnout}.''} \emph{Political Behavior} 38 (2): 355--82. \url{https://doi.org/10.1007/s11109-015-9317-5}.
 
 \leavevmode\hypertarget{ref-Wyatt1999}{}%
-Wyatt, Gwen K., Laurie Friedman, Charles W. Given, and Barbara A. Given. 1999. ``A Profile of Bereaved Caregivers Following Provision of Terminal Care.'' \emph{Journal of Palliative Care} 15 (1): 13--25. \url{https://doi.org/10.1177/082585979901500103}.
-\end{cslreferences}
+Wyatt, Gwen K., Laurie Friedman, Charles W. Given, and Barbara A. Given. 1999. {``A {Profile} of {Bereaved Caregivers} Following {Provision} of {Terminal Care}.''} \emph{Journal of Palliative Care} 15 (1): 13--25. \url{https://doi.org/10.1177/082585979901500103}.
+
+\leavevmode\hypertarget{ref-Zepeda-Millan2017}{}%
+Zepeda-Millán, Chris. 2017. \emph{Latino Mass Mobilization: Immigration, Racialization, and Activism}. First published 2017. {Cambridge, United Kingdom New York Melbourne}: {Cambridge University Press}.
+
+\end{CSLReferences}
 
 \end{document}
