@@ -89,7 +89,7 @@ rr <- cbind(rr, factors_rr$scores) %>%
 cces <- left_join(cces, rr)
 #########################
 
-m1 <- lm(voted ~ diagnosed_close * I(!white) +
+m1 <- lm(voted ~ diagnosed_close *white +
            birthyr + gender + educ + ideo + income + party +
            voted_16 + race, cces, weights = commonpostweight)
 
@@ -113,7 +113,7 @@ mpt <- bind_rows(marga, margb) %>%
 mpt$group <- factor(mpt$group, levels = c("Not White", "White"))
 mpt$plot <- factor(mpt$plot, levels = c("Self or Family Member Diagnosed", "Family Member Died"))
 
-ggplot(mpt, aes(x = x, y = predicted, linetype = group, shape = group)) + 
+p1 <- ggplot(mpt, aes(x = x, y = predicted, linetype = group, shape = group)) + 
   facet_wrap(~ plot) +
   geom_line() + geom_point() +
   geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = .05, linetype = "solid") +
@@ -127,6 +127,8 @@ ggplot(mpt, aes(x = x, y = predicted, linetype = group, shape = group)) +
        caption = "Note: Covariates include race / ethnicity; gender; age; party; ideology;
 income; education; and reported 2016 turnout.") +
   scale_y_continuous(labels = percent)
+
+saveRDS(p1, "temp/white_nonwhite_contact.rds")
 
 #################
 
@@ -157,7 +159,7 @@ mp <- bind_rows(marg1, marg2) %>%
 mp$group <- factor(mp$group, levels = c("75th Percentile", "25th Percentile"))
 mp$plot <- factor(mp$plot, levels = c("Self or Family Member Diagnosed", "Family Member Died"))
 
-ggplot(mp, aes(x = x, y = predicted, linetype = group, shape = group)) + 
+p2 <- ggplot(mp, aes(x = x, y = predicted, linetype = group, shape = group)) + 
   facet_wrap(~ plot) +
   geom_line() + geom_point() +
   geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = .05, linetype = "solid") +
@@ -171,3 +173,5 @@ ggplot(mp, aes(x = x, y = predicted, linetype = group, shape = group)) +
        caption = "Note: Covariates include race / ethnicity; age; gender; party; ideology;
 income; education; and reported 2016 turnout.") +
   scale_y_continuous(labels = percent)
+
+saveRDS(p2, "temp/affinity.rds")

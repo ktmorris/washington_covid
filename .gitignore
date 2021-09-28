@@ -2,8 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-raw_data/
 temp/
-output/
-review/
-markdown/other_shit.rmd
+raw_data/
