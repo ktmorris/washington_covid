@@ -1,0 +1,178 @@
+---
+title: "Grief and Anger"
+subtitle: "Disentangling the Turnout Effects of COVID-19"
+shorttitle: "Other"
+author: Kevin Morris
+abstract: kevin.morris@nyu.edu
+institute: Brennan Center for Justice
+date: Annual Meeting of the American Political Science Association, 10/02/2021
+output:
+  beamer_presentation:
+    latex_engine: xelatex
+    theme: "Berlin"
+    keep_tex: true
+classoption: "aspectratio=169"
+bibliography: "../wa_covid.bib"
+---
+```{r setup, echo = F, message = F, warning = F}
+knitr::opts_knit$set(dev = "cairo_pdf")
+library(systemfit)
+library(AER)
+library(sandwich)
+library(lmtest)
+library(scales)
+library(tidyverse)
+library(extrafont)
+library(kableExtra)
+library(data.table)
+library(stargazer)
+loadfonts()
+```
+
+## COVID-19 and the Presidential Election Were Joined at the Hip
+
+>* By the time of the election, more than **8.3 million** Americans had tested positive  
+
+>* and more than **220 thousand** had died from the virus.
+
+>* Importantly, there were big---and widely known---racial disparities in the effects of the pandemic.
+
+## COVID-19 and the Presidential Election Were Joined at the Hip
+
+## Political Threat
+
+>* A large body of research demonstrates that when the government makes life harder for citizens, they can be mobilized to participate.
+
+>* @TamCho2006a shows that Arab-Americans who face a worrisome policy environment can be mobilized.
+
+>* @White2016 argues that more aggressive immigration enforcement can increase turnout among Latinos.
+
+>* @Campbell2003a documents that threats to Social Security increased political activity among seniors.
+
+## Political Threat
+
+>* @Nichols2020a: "The straightforward notion that racialized threat mobilizes Latinxs is weakened by the literature's tendency to overpredict political mobilization, overlook individual responses to threat, and disregard the role of mobilization structures."
+
+## Opportunity Cost
+
+>* All the way back to @Rosenstone1982, who shows that economic hardship reduces participation...
+
+>* ...up through contemporary work showing that stressful life events such as divorce [@Sandell2005] and ill health [@Pacheco2015] can decrease turnout too.
+
+>* @Hobbs2014 is among the only papers to directly study the effect of a familial death on turnout by matching Social Security death records to the California registered voter file. They find that a household death around an election reduces turnout.
+
+## From Demobilizing to Mobilizing
+
+>* The racial injustice narrative, borrowed from the criminal justice literature, indicates that historically demobilizing events can be mobilizing when located in a narrative of racial injustice [@Walker2020].
+
+>* COVID-19 had the potential to bring such a narrative to life given A) the racial disparities in death [e.g. @Garg2020] and B) the intense reporting of these disparities in both the mainstream press [@Kolata2020] and publications specifically serving Black America [@Blount2020]. 
+
+>* Racial minorities with a strong sense of "racial affinity" or "linked fate" are probably more likely to understand COVID-19 and a *racial* policy failure and therefore be mobilized.
+
+## Competing Treatments
+
+```{r, echo=FALSE,fig.show='hold',fig.align='center', out.width="90%", out.height="90%"}
+knitr::include_graphics(c("../../temp/dir.png"))
+```
+
+## Competing Treatments
+
+```{r, echo=FALSE,fig.show='hold',fig.align='center', out.width="90%", out.height="90%"}
+knitr::include_graphics(c("../../temp/dir.png"))
+```
+
+## Competing Treatments
+
+```{r, echo=FALSE,fig.show='hold',fig.align='center', out.width="90%", out.height="90%"}
+knitr::include_graphics(c("../../temp/dir.png"))
+```
+
+## Competing Treatments
+
+```{r, echo=FALSE,fig.show='hold',fig.align='center', out.width="90%", out.height="90%"}
+knitr::include_graphics(c("../../temp/dir.png"))
+```
+
+## Methods and Hypotheses
+
+>* Create groups of three, matched from the "treated" voter:
+
+>    1. Both treatments (Household Death + Household Death from COVID)
+
+>    2. One treatment (Household Death)
+
+>    3. No treatment
+
+## Methods and Hypotheses
+
+>* While administrative data is very helpful, it doesn't really give us access to the causal mechanism.
+
+>* I use CCES data to explore whether the turnout effects of COVID-19 contact were moderated by non-white Americans' views on structural racism using a "racial affinity" index.
+
+>* *H*: Non-white voters with higher levels of racial affinity were more mobilized by COVID-19 contact than voters without such affinity.
+
+## Results
+
+\begin{center}
+?
+\end{center}
+
+## Results
+
+\begin{center}
+???
+\end{center}
+
+## Results
+
+\begin{center}
+?????
+\end{center}
+
+## (Here's what this could look like)
+
+```{r, echo=FALSE,fig.show='hold',fig.align='center', out.width="65%", out.height="80%"}
+knitr::include_graphics(c("../../temp/example.png"))
+```
+
+## Survey Data: CCES
+
+```{r, echo=FALSE,fig.show='hold',fig.align='center', out.width="80%", out.height="80%"}
+knitr::include_graphics(c("../../temp/example2.png"))
+```
+
+## Survey Data: CCES
+
+```{r, echo=FALSE,fig.show='hold',fig.align='center', out.width="80%", out.height="80%"}
+knitr::include_graphics(c("../../temp/example3.png"))
+```
+
+## Survey Data: CCES
+
+```{r, echo=FALSE,fig.show='hold',fig.align='center', out.width="80%", out.height="80%"}
+knitr::include_graphics(c("../../temp/example4.png"))
+```
+
+## Survey Data: CCES
+
+```{r, echo=FALSE,fig.show='hold',fig.align='center', out.width="80%", out.height="80%"}
+knitr::include_graphics(c("../../temp/example5.png"))
+```
+
+## Takeaways
+
+>* When we look at the effect of COVID-19 contact on turnout in the *aggregate*, there doesn't seem to be much of a story.
+
+>* But when we explore how this "treatment effect" is moderated by views about structural racism in the United States, big gaps open up in how nonwhite voters responded to being touched by the pandemic.
+
+>* When we have treatment effects (potentially) pointing in different directions, we should develop causal models that can disentangle these effects rather than simply adjudicate between competing hypotheses.
+
+>* The IRB can be annoying.
+
+## Thanks!
+
+kevin.morris@nyu.edu
+
+$@$KevinTMorris
+
+## References {.allowframebreaks}

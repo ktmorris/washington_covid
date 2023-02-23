@@ -1,0 +1,493 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  ignorenonframetext,
+  aspectratio=169]{beamer}
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{part title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usetheme[]{Berlin}
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Grief and Anger},
+  pdfauthor={Kevin Morris},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\newif\ifbibliography
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\title{Grief and Anger}
+\subtitle{Disentangling the Turnout Effects of COVID-19}
+\author{Kevin Morris}
+\date{Annual Meeting of the American Political Science Association,
+10/02/2021}
+\institute{Brennan Center for Justice}
+
+\begin{document}
+\frame{\titlepage}
+\begin{abstract}
+\href{mailto:kevin.morris@nyu.edu}{\nolinkurl{kevin.morris@nyu.edu}}
+\end{abstract}
+
+\begin{frame}{COVID-19 and the Presidential Election Were Joined at the
+Hip}
+\protect\hypertarget{covid-19-and-the-presidential-election-were-joined-at-the-hip}{}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  By the time of the election, more than \textbf{8.3 million} Americans
+  had tested positive
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  and more than \textbf{220 thousand} had died from the virus.
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Importantly, there were big---and widely known---racial disparities in
+  the effects of the pandemic.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{COVID-19 and the Presidential Election Were Joined at the
+Hip}
+\protect\hypertarget{covid-19-and-the-presidential-election-were-joined-at-the-hip-1}{}
+\end{frame}
+
+\begin{frame}{Political Threat}
+\protect\hypertarget{political-threat}{}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  A large body of research demonstrates that when the government makes
+  life harder for citizens, they can be mobilized to participate.
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Tam Cho, Gimpel, and Wu (2006) shows that Arab-Americans who face a
+  worrisome policy environment can be mobilized.
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  White (2016) argues that more aggressive immigration enforcement can
+  increase turnout among Latinos.
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Campbell (2003) documents that threats to Social Security increased
+  political activity among seniors.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Political Threat}
+\protect\hypertarget{political-threat-1}{}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Nichols and Valdéz (2020): ``The straightforward notion that
+  racialized threat mobilizes Latinxs is weakened by the literature's
+  tendency to overpredict political mobilization, overlook individual
+  responses to threat, and disregard the role of mobilization
+  structures.''
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Opportunity Cost}
+\protect\hypertarget{opportunity-cost}{}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  All the way back to Rosenstone (1982), who shows that economic
+  hardship reduces participation\ldots{}
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  \ldots up through contemporary work showing that stressful life events
+  such as divorce (Sandell and Plutzer 2005) and ill health (Pacheco and
+  Fletcher 2015) can decrease turnout too.
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Hobbs, Christakis, and Fowler (2014) is among the only papers to
+  directly study the effect of a familial death on turnout by matching
+  Social Security death records to the California registered voter file.
+  They find that a household death around an election reduces turnout.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{From Demobilizing to Mobilizing}
+\protect\hypertarget{from-demobilizing-to-mobilizing}{}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  The racial injustice narrative, borrowed from the criminal justice
+  literature, indicates that historically demobilizing events can be
+  mobilizing when located in a narrative of racial injustice (Walker
+  2020).
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  COVID-19 had the potential to bring such a narrative to life given A)
+  the racial disparities in death (e.g. Garg et al. 2020) and B) the
+  intense reporting of these disparities in both the mainstream press
+  (Kolata 2020) and publications specifically serving Black America
+  (Blount 2020).
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Racial minorities with a strong sense of ``racial affinity'' or
+  ``linked fate'' are probably more likely to understand COVID-19 and a
+  \emph{racial} policy failure and therefore be mobilized.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Competing Treatments}
+\protect\hypertarget{competing-treatments}{}
+\begin{center}\includegraphics[width=0.9\linewidth,height=0.9\textheight]{../../temp/dir} \end{center}
+\end{frame}
+
+\begin{frame}{Competing Treatments}
+\protect\hypertarget{competing-treatments-1}{}
+\begin{center}\includegraphics[width=0.9\linewidth,height=0.9\textheight]{../../temp/dir} \end{center}
+\end{frame}
+
+\begin{frame}{Competing Treatments}
+\protect\hypertarget{competing-treatments-2}{}
+\begin{center}\includegraphics[width=0.9\linewidth,height=0.9\textheight]{../../temp/dir} \end{center}
+\end{frame}
+
+\begin{frame}{Competing Treatments}
+\protect\hypertarget{competing-treatments-3}{}
+\begin{center}\includegraphics[width=0.9\linewidth,height=0.9\textheight]{../../temp/dir} \end{center}
+\end{frame}
+
+\begin{frame}{Methods and Hypotheses}
+\protect\hypertarget{methods-and-hypotheses}{}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  Create groups of three, matched from the ``treated'' voter:
+\end{itemize}
+
+\begin{enumerate}[<+->]
+\tightlist
+\item
+  Both treatments (Household Death + Household Death from COVID)
+\end{enumerate}
+
+\begin{enumerate}[<+->]
+\setcounter{enumi}{1}
+\tightlist
+\item
+  One treatment (Household Death)
+\end{enumerate}
+
+\begin{enumerate}[<+->]
+\setcounter{enumi}{2}
+\tightlist
+\item
+  No treatment
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Methods and Hypotheses}
+\protect\hypertarget{methods-and-hypotheses-1}{}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  While administrative data is very helpful, it doesn't really give us
+  access to the causal mechanism.
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  I use CCES data to explore whether the turnout effects of COVID-19
+  contact were moderated by non-white Americans' views on structural
+  racism using a ``racial affinity'' index.
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  \emph{H}: Non-white voters with higher levels of racial affinity were
+  more mobilized by COVID-19 contact than voters without such affinity.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Results}
+\protect\hypertarget{results}{}
+\begin{center}
+?
+\end{center}
+\end{frame}
+
+\begin{frame}{Results}
+\protect\hypertarget{results-1}{}
+\begin{center}
+???
+\end{center}
+\end{frame}
+
+\begin{frame}{Results}
+\protect\hypertarget{results-2}{}
+\begin{center}
+?????
+\end{center}
+\end{frame}
+
+\begin{frame}{(Here's what this could look like)}
+\protect\hypertarget{heres-what-this-could-look-like}{}
+\begin{center}\includegraphics[width=0.65\linewidth,height=0.8\textheight]{../../temp/example} \end{center}
+\end{frame}
+
+\begin{frame}{Survey Data: CCES}
+\protect\hypertarget{survey-data-cces}{}
+\begin{center}\includegraphics[width=0.8\linewidth,height=0.8\textheight]{../../temp/example2} \end{center}
+\end{frame}
+
+\begin{frame}{Survey Data: CCES}
+\protect\hypertarget{survey-data-cces-1}{}
+\begin{center}\includegraphics[width=0.8\linewidth,height=0.8\textheight]{../../temp/example3} \end{center}
+\end{frame}
+
+\begin{frame}{Survey Data: CCES}
+\protect\hypertarget{survey-data-cces-2}{}
+\begin{center}\includegraphics[width=0.8\linewidth,height=0.8\textheight]{../../temp/example4} \end{center}
+\end{frame}
+
+\begin{frame}{Survey Data: CCES}
+\protect\hypertarget{survey-data-cces-3}{}
+\begin{center}\includegraphics[width=0.8\linewidth,height=0.8\textheight]{../../temp/example5} \end{center}
+\end{frame}
+
+\begin{frame}{Takeaways}
+\protect\hypertarget{takeaways}{}
+\begin{itemize}[<+->]
+\tightlist
+\item
+  When we look at the effect of COVID-19 contact on turnout in the
+  \emph{aggregate}, there doesn't seem to be much of a story.
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  But when we explore how this ``treatment effect'' is moderated by
+  views about structural racism in the United States, big gaps open up
+  in how nonwhite voters responded to being touched by the pandemic.
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  When we have treatment effects (potentially) pointing in different
+  directions, we should develop causal models that can disentangle these
+  effects rather than simply adjudicate between competing hypotheses.
+\end{itemize}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  The IRB can be annoying.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Thanks!}
+\protect\hypertarget{thanks}{}
+\href{mailto:kevin.morris@nyu.edu}{\nolinkurl{kevin.morris@nyu.edu}}
+
+\(@\)KevinTMorris
+\end{frame}
+
+\begin{frame}[allowframebreaks]{References}
+\protect\hypertarget{references}{}
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\hypertarget{ref-Blount2020}{}%
+Blount, Linda Goler. 2020. {``Fighting {Injustice} in {Health Care} for
+{Black Women} and {Diverse Rare Disease Patients}.''} \emph{Ebony}, July
+29, 2020.
+\url{https://www.ebony.com/health/fighting-injustice-in-health-care-for-black-women-and-diverse-rare-disease-patients/}.
+
+\leavevmode\hypertarget{ref-Campbell2003a}{}%
+Campbell, Andrea Louise. 2003. {``Participatory {Reactions} to {Policy
+Threats}: Senior {Citizens} and the {Defense} of {Social Security} and
+{Medicare}.''} \emph{Political Behavior} 25 (1): 29--49.
+\url{https://doi.org/10.1023/A:1022900327448}.
+
+\leavevmode\hypertarget{ref-Garg2020}{}%
+Garg, Shikha, Lindsay Kim, Michael Whitaker, Alissa O'Halloran, Charisse
+Cummings, Rachel Holstein, Mila Prill, et al. 2020. {``Hospitalization
+{Rates} and {Characteristics} of {Patients Hospitalized} with
+{Laboratory}-{Confirmed Coronavirus Disease} 2019 --- {COVID}-{NET}, 14
+{States}, {March} 1--30, 2020.''} \emph{MMWR. Morbidity and Mortality
+Weekly Report} 69 (15): 458--64.
+\url{https://doi.org/10.15585/mmwr.mm6915e3}.
+
+\leavevmode\hypertarget{ref-Hobbs2014}{}%
+Hobbs, William R., Nicholas A. Christakis, and James H. Fowler. 2014.
+{``Widowhood {Effects} in {Voter Participation}.''} \emph{American
+Journal of Political Science} 58 (1): 1--16.
+\url{https://doi.org/10.1111/ajps.12040}.
+
+\leavevmode\hypertarget{ref-Kolata2020}{}%
+Kolata, Gina. 2020. {``Social {Inequities Explain Racial Gaps} in
+{Pandemic}, {Studies Find}.''} \emph{The New York Times: Health},
+December 9, 2020.
+\url{https://www.nytimes.com/2020/12/09/health/coronavirus-black-hispanic.html}.
+
+\leavevmode\hypertarget{ref-Nichols2020a}{}%
+Nichols, Vanessa Cruz, and Ramón Garibaldo Valdéz. 2020. {``How to
+{Sound} the {Alarms}: Untangling {Racialized Threat} in {Latinx
+Mobilization}.''} \emph{PS: Political Science \& Politics} 53 (4):
+690--96. \url{https://doi.org/10.1017/S1049096520000530}.
+
+\leavevmode\hypertarget{ref-Pacheco2015}{}%
+Pacheco, Julianna, and Jason Fletcher. 2015. {``Incorporating {Health}
+into {Studies} of {Political Behavior}: Evidence for {Turnout} and
+{Partisanship}.''} \emph{Political Research Quarterly} 68 (1): 104--16.
+\url{https://doi.org/10.1177/1065912914563548}.
+
+\leavevmode\hypertarget{ref-Rosenstone1982}{}%
+Rosenstone, Steven J. 1982. {``Economic {Adversity} and {Voter
+Turnout}.''} \emph{American Journal of Political Science} 26 (1):
+25--46. \url{https://doi.org/10.2307/2110837}.
+
+\leavevmode\hypertarget{ref-Sandell2005}{}%
+Sandell, Julianna, and Eric Plutzer. 2005. {``Families, Divorce and
+Voter Turnout in the {US}.''} \emph{Political Behavior} 27 (2): 133--62.
+\url{https://doi.org/10.1007/s11109-005-3341-9}.
+
+\leavevmode\hypertarget{ref-TamCho2006a}{}%
+Tam Cho, Wendy K., James G. Gimpel, and Tony Wu. 2006. {``Clarifying the
+{Role} of {SES} in {Political Participation}: Policy {Threat} and {Arab
+American Mobilization}.''} \emph{Journal of Politics} 68 (4): 977--91.
+\url{https://doi.org/10.1111/j.1468-2508.2006.00482.x}.
+
+\leavevmode\hypertarget{ref-Walker2020}{}%
+Walker, Hannah L. 2020. {``Targeted: The {Mobilizing Effect} of
+{Perceptions} of {Unfair Policing Practices}.''} \emph{The Journal of
+Politics} 82 (1): 119--34. \url{https://doi.org/10.1086/705684}.
+
+\leavevmode\hypertarget{ref-White2016}{}%
+White, Ariel. 2016. {``When {Threat Mobilizes}: Immigration
+{Enforcement} and {Latino Voter Turnout}.''} \emph{Political Behavior}
+38 (2): 355--82. \url{https://doi.org/10.1007/s11109-015-9317-5}.
+
+\end{CSLReferences}
+\end{frame}
+
+\end{document}
